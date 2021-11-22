@@ -418,7 +418,15 @@ namespace GameLogic
                 Debug.LogError(str);
         }
         //----------------------------------------
-
+        //static string ResourcesBuildDir
+        //{
+        //    get
+        //    {
+        //        var dir = "Assets/" + Config.ResourcesBuildDir + "/";
+        //        return dir;
+        //    }
+        //}
+        //----------------------------------------
 
 
         /// <summary>

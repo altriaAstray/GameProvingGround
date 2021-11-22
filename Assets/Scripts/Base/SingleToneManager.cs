@@ -21,7 +21,7 @@ namespace GameLogic
                 if (instance == null)
                 {
                     instance = value;
-                    //DontDestroyOnLoad(instance.gameObject);
+                    DontDestroyOnLoad(instance.gameObject);
                 }
                 else if (instance != value)
                 {

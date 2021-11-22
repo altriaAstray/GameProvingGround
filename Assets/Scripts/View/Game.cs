@@ -8,7 +8,13 @@ namespace GameLogic
     {
         private void Start()
         {
-            //ResourceMgr.Instance.GetGameObject("BuildResources__Audio__BGM__BGM_28.mp3");
+            //Invoke("Play", 3f);
+        }
+
+        public void Play()
+        {
+            //gameObject.GetComponent<AudioSource>().clip = ResourcesMgr.Instance.LoadAsset<AudioClip>("Audio/BGM/BGM_1");
+            //gameObject.GetComponent<AudioSource>().Play();
         }
     }
 }

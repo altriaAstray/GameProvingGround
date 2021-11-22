@@ -12,7 +12,6 @@ namespace GameLogic
 {
     public class Config
     {
-        // 美术库用到
-        public const string ResourcesBuildDir = "BundleResources";
+
     }
 }

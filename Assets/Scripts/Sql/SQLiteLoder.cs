@@ -18,10 +18,10 @@ namespace GameLogic.SQL
 
         private readonly SQLiteConnection _connection;
 
-        public SQLiteLoder(string DatabaseName)
+        public SQLiteLoder()
         {
 #if UNITY_EDITOR
-            string dbPath = string.Format(@"Assets/StreamingAssets/{0}", DatabaseName);
+            string dbPath = string.Format(@"Assets/StreamingAssets/{0}", DB_PATH);
 #else
             // check if file exists in Application.persistentDataPath
             string filepath = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseName);
@@ -161,6 +161,28 @@ namespace GameLogic.SQL
         {
             return new TableQuery<T>(_connection);
         }
+
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public void Update<T>(T obj)
+        {
+            _connection.Update(obj);
+        }
+
+        /// <summary>
+        /// 批量更新
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public void UpdateAll<T>(List<T> obj)
+        {
+            _connection.UpdateAll(obj);
+        }
+
 
         /// <summary>
         /// 关闭

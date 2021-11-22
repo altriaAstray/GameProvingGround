@@ -117,7 +117,7 @@ namespace GameLogic.Editor
         /// <param name="jsonContent"></param>
         static public void Json2Sqlite(string filePath, string jsonContent)
         {
-            SQLiteLoder sqlService = new SQLiteLoder("DataBase.db");
+            SQLiteLoder sqlService = new SQLiteLoder();
 
             //表名
             var table = Path.GetFileName(filePath).Replace(Path.GetExtension(filePath), "");
