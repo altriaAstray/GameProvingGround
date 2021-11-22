@@ -13,8 +13,10 @@ using UnityEditor;
 using UnityEngine;
 using System.Reflection;
 using GameLogic.Json;
+using GameLogic.SQL;
+using GameLogic.Core.Tools;
 
-namespace GameLogic
+namespace GameLogic.Editor
 {
     /// <summary>
     /// 功能：Excel工具
@@ -52,12 +54,12 @@ namespace GameLogic
         [MenuItem("工具箱/表格->生成SQLite", false, 2)]
         public static void ExcelToSQLite()
         {
-            string projectRoot = Application.dataPath.Replace("/Assets", "");
-            string library = projectRoot + "/Library";
+            //BD生命周期启动
+            BDApplication.Init();
 
             //加载主工程的DLL Type
-            var assemblyPath = library + "/ScriptAssemblies/Assembly-CSharp.dll";
-            var editorAssemlyPath = library + "/ScriptAssemblies/Assembly-CSharp-Editor.dll";
+            var assemblyPath = BDApplication.Library + "/ScriptAssemblies/Assembly-CSharp.dll";
+            var editorAssemlyPath = BDApplication.Library + "/ScriptAssemblies/Assembly-CSharp-Editor.dll";
 
             if (File.Exists(assemblyPath) && File.Exists(editorAssemlyPath))
             {
@@ -115,14 +117,14 @@ namespace GameLogic
         /// <param name="jsonContent"></param>
         static public void Json2Sqlite(string filePath, string jsonContent)
         {
-            DataService ds = new DataService("DataBase.db");
+            SQLiteLoder sqlService = new SQLiteLoder("DataBase.db");
 
             //表名
             var table = Path.GetFileName(filePath).Replace(Path.GetExtension(filePath), "");
             //jsonStr to jsonData
             var jsonObj = JsonMapper.ToObject(jsonContent);
             //库名
-            var dbname = Path.GetFileNameWithoutExtension(ds.DBPath);
+            var dbname = Path.GetFileNameWithoutExtension(sqlService.DBPath);
             //命名空间
             var @namespace = "GameLogic.";
 
@@ -134,7 +136,7 @@ namespace GameLogic
                 return;
             }
 
-            ds.CreateTable(type);
+            sqlService.CreateTable(type);
 
             for (int i = 0; i < jsonObj.Count; i++)
             {
@@ -142,7 +144,7 @@ namespace GameLogic
                 {
                     var json = jsonObj[i].ToJson();
                     var jobj = JsonMapper.ToObject(type, json);
-                    ds.Insert(jobj);
+                    sqlService.Insert(jobj);
                 }
                 catch (Exception e)
                 {

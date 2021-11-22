@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 /// 日期：2021年11月21日11:19:10
 /// </summary>
 
-namespace GameLogic
+namespace GameLogic.Editor
 {
     public class ExcelUtility
     {

@@ -15,6 +15,7 @@ namespace GameLogic
         [AutoIncrement]
         
         public int Id { get; set; }    //id
+        public int Index { get; set; }    //索引
         public string Name { get; set; }    //名称
         public int ValueType { get; set; }    //值类型
         public int Value_1 { get; set; }    //值(int)
@@ -26,8 +27,9 @@ namespace GameLogic
         public override string ToString()
         {
             return string.Format(
-                "[Id={1},Name={2},ValueType={3},Value_1={4},Value_2={5},Value_3={6},Value_4={7}]",
+                "[Id={1},Index={2},Name={3},ValueType={4},Value_1={5},Value_2={6},Value_3={7},Value_4={8}]",
                 this.Id,
+                this.Index,
                 this.Name,
                 this.ValueType,
                 this.Value_1,

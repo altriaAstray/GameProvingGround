@@ -5,7 +5,30 @@
 /// </summary>
 namespace GameLogic
 {
+    /// <summary>
+    /// 加载资源的返回状态
+    /// </summary>
+    public enum LoadAssetState
+    {
+        Success = 0,
+        Fail,
+        IsLoding,
+    }
 
+    /// <summary>
+    /// 资源加载路径
+    /// </summary>
+    public enum AssetLoadPath
+    {
+        Editor = 0,
+        Persistent,
+        StreamingAsset,
+        EditorLibrary
+    }
+
+    /// <summary>
+    /// 字段类型
+    /// </summary>
     public enum FieldTypes
     {
         Unknown,        //未知类型
