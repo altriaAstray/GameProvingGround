@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 namespace GameLogic
 {
@@ -17,17 +18,15 @@ namespace GameLogic
         Transform transformObj;
 
         bool playMusic = true;
-        float volumeMusicMax = 1f;
-        float volumeMusicMan = 0f;
         float volumeMusic = 0.5f;
 
         bool playSound = true;
-        float volumeSoundMax = 0.8f;
-        float volumeSoundMan = 0.8f;
         float volumeSound = 0.5f;
 
         // 游戏配置表
         Dictionary<int, GameConfig> configs = new Dictionary<int, GameConfig>();
+        Dictionary<int, AudioConfig> musics = new Dictionary<int, AudioConfig>();
+        Dictionary<int, AudioConfig> sounds = new Dictionary<int, AudioConfig>();
 
         private void Start()
         {
@@ -36,6 +35,20 @@ namespace GameLogic
             foreach(GameConfig tempData in tempConfigs)
             {
                 configs.Add(tempData.Index,tempData);
+            }
+
+            List<AudioConfig> tempAudios = DataMgr.Instance.GetAudio();
+
+            foreach (AudioConfig tempData in tempAudios)
+            {
+                if(tempData.Type == 1)
+                {
+                    musics.Add(tempData.Index, tempData);
+                } 
+                else if (tempData.Type == 2)
+                {
+                    sounds.Add(tempData.Index, tempData);
+                }
             }
 
             Init();
@@ -71,10 +84,10 @@ namespace GameLogic
             }
             //----------------声音管理系统初始化完成----------------
 
-            SetPlayMusic(false);
-            SetVolumeMusic(0.3f);
-            SetPlaySound(false);
-            SetVolumeSound(0.3f);
+            //SetPlayMusic(true);
+            //SetVolumeMusic(0.5f);
+            //SetPlaySound(true);
+            //SetVolumeSound(0.5f);
         }
 
         public void ReadConfig()
@@ -119,8 +132,7 @@ namespace GameLogic
         }
         public void SetVolumeMusic(float value)
         {
-
-            volumeMusic = value;
+            volumeMusic = Mathf.Clamp(value,0,1);
             configs[100002].Value_2 = volumeMusic;
             DataMgr.Instance.SetGameConfig(configs[100002]);
             sourceObj.volume = volumeMusic;
@@ -135,7 +147,7 @@ namespace GameLogic
 
         public void SetVolumeSound(float value)
         {
-            volumeSound = value;
+            volumeSound = Mathf.Clamp(value, 0, 1);
             configs[100102].Value_2 = volumeSound;
             DataMgr.Instance.SetGameConfig(configs[100102]);
         }

@@ -9,7 +9,7 @@ using UnityEngine.Scripting;
 namespace GameLogic
 {
     [UnityEngine.Scripting.Preserve]
-    public class Audio
+    public class AudioConfig
     {
         [PrimaryKey]
         [AutoIncrement]

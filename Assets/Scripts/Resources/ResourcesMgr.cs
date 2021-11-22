@@ -51,22 +51,22 @@ namespace GameLogic
             return assets;
         }
 
-        /// <summary>
-        /// 加载Stream下资源
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="isCache"></param>
-        /// <returns></returns>
-        public WWW LoadAssetAsStream(string name, bool isCache = true)
-        {
-            if (_resourceTable.Contains(name))
-                return _resourceTable[name] as WWW;
-            var www = new WWW("file:///" + Path.Combine(_streamPath, name));
-            Debug.Log(Path.Combine(_streamPath, name));
-            while (!www.isDone) { }
-            return www;
-        }
+        ///// <summary>
+        ///// 加载Stream下资源
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="path"></param>
+        ///// <param name="isCache"></param>
+        ///// <returns></returns>
+        //public WWW LoadAssetAsStream(string name, bool isCache = true)
+        //{
+        //    if (_resourceTable.Contains(name))
+        //        return _resourceTable[name] as WWW;
+        //    var www = new WWW("file:///" + Path.Combine(_streamPath, name));
+        //    Debug.Log(Path.Combine(_streamPath, name));
+        //    while (!www.isDone) { }
+        //    return www;
+        //}
 
         /// <summary>
         /// 实例化资源

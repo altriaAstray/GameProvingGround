@@ -34,9 +34,9 @@ namespace GameLogic
         //-------------------------------------
         //-------------------------------------
         //-------------------------------------
-        public List<Audio> GetAudio()
+        public List<AudioConfig> GetAudio()
         {
-            IEnumerable<Audio> audios = sqlService.GetTable<Audio>();
+            IEnumerable<AudioConfig> audios = sqlService.GetTable<AudioConfig>();
             return audios.ToList();
         }
         //-------------------------------------
