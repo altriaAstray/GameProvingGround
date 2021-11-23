@@ -74,6 +74,11 @@ namespace GameLogic
             return musics.Keys.ToList();
         }
 
+        public List<int> GetSoundKey()
+        {
+            return sounds.Keys.ToList();
+        }
+
         public void ReadConfig()
         {
 
@@ -183,7 +188,7 @@ namespace GameLogic
             {
                 if (sounds != null && sounds.ContainsKey(index))
                 {
-                    AudioClip clip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[index].Path + musics[index].Name);
+                    AudioClip clip = ResourcesMgr.Instance.LoadAsset<AudioClip>(sounds[index].Path + sounds[index].Name);
                     if (clip != null)
                     {
                         StartCoroutine(ObjectProcessing(clip, emitter, volumeSound, loop));

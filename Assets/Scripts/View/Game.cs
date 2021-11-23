@@ -16,6 +16,12 @@ namespace GameLogic
             List<int> musicKey = AudioMgr.Instance.GetMusicKey();
             AudioMgr.Instance.PlayBGM(musicKey[0]);
         }
+
+        public void StartGame()
+        {
+            List<int> soundKey = AudioMgr.Instance.GetSoundKey();
+            AudioMgr.Instance.PlaySound(soundKey[0]);
+        }
     }
 }
 

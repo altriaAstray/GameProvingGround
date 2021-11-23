@@ -15,11 +15,15 @@ namespace GameLogic
         GameObject[][] stObjects;
         public int numObjectsList;
 
+        public void Awake()
+        {
+            Instance = this;
+            Init();
+        }
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public void Start()
         {
-            Init();
+            
         }
 
         void Init()
