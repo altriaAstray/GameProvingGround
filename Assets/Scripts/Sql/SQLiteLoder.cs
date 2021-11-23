@@ -24,7 +24,7 @@ namespace GameLogic.SQL
             string dbPath = string.Format(@"Assets/StreamingAssets/{0}", DB_PATH);
 #else
             // check if file exists in Application.persistentDataPath
-            string filepath = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseName);
+            string filepath = string.Format("{0}/{1}", Application.persistentDataPath, DB_PATH);
 
             if (!File.Exists(filepath))
             {
@@ -34,34 +34,34 @@ namespace GameLogic.SQL
 
 #if UNITY_ANDROID
                 WWW loadDb =
-     new WWW ("jar:file://" + Application.dataPath + "!/assets/" + DatabaseName); // this is the path to your StreamingAssets in android
+     new WWW ("jar:file://" + Application.dataPath + "!/assets/" + DB_PATH); // this is the path to your StreamingAssets in android
                 while (!loadDb.isDone) { } // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                 // then save to Application.persistentDataPath
                 File.WriteAllBytes (filepath, loadDb.bytes);
 #elif UNITY_IOS
                 string loadDb =
-     Application.dataPath + "/Raw/" + DatabaseName; // this is the path to your StreamingAssets in iOS
+     Application.dataPath + "/Raw/" + DB_PATH; // this is the path to your StreamingAssets in iOS
                 // then save to Application.persistentDataPath
                 File.Copy (loadDb, filepath);
 #elif UNITY_WP8
                 string loadDb =
-     Application.dataPath + "/StreamingAssets/" + DatabaseName; // this is the path to your StreamingAssets in iOS
+     Application.dataPath + "/StreamingAssets/" + DB_PATH; // this is the path to your StreamingAssets in iOS
                 // then save to Application.persistentDataPath
                 File.Copy (loadDb, filepath);
     
 #elif UNITY_WINRT
                 string loadDb =
-     Application.dataPath + "/StreamingAssets/" + DatabaseName; // this is the path to your StreamingAssets in iOS
+     Application.dataPath + "/StreamingAssets/" + DB_PATH; // this is the path to your StreamingAssets in iOS
                 // then save to Application.persistentDataPath
                 File.Copy (loadDb, filepath);
 #elif UNITY_STANDALONE_OSX
                 string loadDb =
-     Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseName; // this is the path to your StreamingAssets in iOS
+     Application.dataPath + "/Resources/Data/StreamingAssets/" + DB_PATH; // this is the path to your StreamingAssets in iOS
                 // then save to Application.persistentDataPath
                 File.Copy(loadDb, filepath);
 #else
                 string loadDb =
-     Application.dataPath + "/StreamingAssets/" + DatabaseName; // this is the path to your StreamingAssets in iOS
+     Application.dataPath + "/StreamingAssets/" + DB_PATH; // this is the path to your StreamingAssets in iOS
                 // then save to Application.persistentDataPath
                 File.Copy(loadDb, filepath);
 #endif

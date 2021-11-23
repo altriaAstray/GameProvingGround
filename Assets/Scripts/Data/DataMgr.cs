@@ -14,25 +14,34 @@ namespace GameLogic
 {
     public class DataMgr : SingleToneManager<DataMgr>
     {
-
         private SQLiteLoder sqlService;
+
+        // 游戏配置表
+        Dictionary<int, GameConfig> configs = new Dictionary<int, GameConfig>();
 
         void Awake()
         {
             Instance = this;
             sqlService = new SQLiteLoder();
+
+            List<GameConfig> tempConfigs = DataMgr.Instance.GetGameConfig();
+            foreach (GameConfig tempData in tempConfigs)
+            {
+                configs.Add(tempData.Index, tempData);
+            }
         }
 
         private void Start()
         {
-            
+
         }
 
         //-------------------------------------
-        //-------------------------------------
-        //-------------------------------------
-        //-------------------------------------
-        //-------------------------------------
+        public Dictionary<int, GameConfig> GetConfig()
+        {
+            return configs;
+        }
+
         //-------------------------------------
         public List<AudioConfig> GetAudio()
         {
@@ -51,5 +60,14 @@ namespace GameLogic
             sqlService.Update<GameConfig>(config);
         }
         //-------------------------------------
+        public List<Languages> GetLanguages()
+        {
+            IEnumerable<Languages> configs = sqlService.GetTable<Languages>();
+            return configs.ToList();
+        }
+
+        //-------------------------------------
+
+
     }
 }

@@ -5,11 +5,14 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 
+/// <summary>
+/// 功能：音频管理
+/// 创建者：长生
+/// 日期：2021年11月23日11:22:09
+/// </summary>
+
 namespace GameLogic
 {
-    /// <summary>
-    /// 音频管理器
-    /// </summary>
 
     public class AudioMgr : SingleToneManager<AudioMgr>
     {
@@ -23,20 +26,11 @@ namespace GameLogic
         bool playSound = true;
         float volumeSound = 0.5f;
 
-        // 游戏配置表
-        Dictionary<int, GameConfig> configs = new Dictionary<int, GameConfig>();
         Dictionary<int, AudioConfig> musics = new Dictionary<int, AudioConfig>();
         Dictionary<int, AudioConfig> sounds = new Dictionary<int, AudioConfig>();
 
         private void Start()
         {
-            List<GameConfig> tempConfigs = DataMgr.Instance.GetGameConfig();
-
-            foreach(GameConfig tempData in tempConfigs)
-            {
-                configs.Add(tempData.Index,tempData);
-            }
-
             List<AudioConfig> tempAudios = DataMgr.Instance.GetAudio();
 
             foreach (AudioConfig tempData in tempAudios)
@@ -60,21 +54,11 @@ namespace GameLogic
         public void Init()
         {
             //============初始化声音管理系统=============
+            playMusic = DataMgr.Instance.GetConfig()[100001].Value_3;
+            volumeMusic = DataMgr.Instance.GetConfig()[100002].Value_2;
 
-            //if (!PlayerPrefs.HasKey(musicSwitchKey))//不存在键值则创建
-            //{
-            //    PlayerPrefs.SetInt(musicSwitchKey, 100);
-            //}
-            //if (!PlayerPrefs.HasKey(audioSwitchKey))//不存在键值则创建
-            //{
-            //    PlayerPrefs.SetInt(audioSwitchKey, 100);
-            //}
-
-            playMusic = configs[100001].Value_3;
-            volumeMusic = configs[100002].Value_2;
-
-            playSound = configs[100101].Value_3;
-            volumeSound = configs[100102].Value_2;
+            playSound = DataMgr.Instance.GetConfig()[100101].Value_3;
+            volumeSound = DataMgr.Instance.GetConfig()[100102].Value_2;
 
             transformObj = transform;
             sourceObj = transformObj.GetComponent<AudioSource>();
@@ -83,11 +67,11 @@ namespace GameLogic
                 sourceObj = gameObject.AddComponent<AudioSource>();
             }
             //----------------声音管理系统初始化完成----------------
+        }
 
-            //SetPlayMusic(true);
-            //SetVolumeMusic(0.5f);
-            //SetPlaySound(true);
-            //SetVolumeSound(0.5f);
+        public List<int> GetMusicKey()
+        {
+            return musics.Keys.ToList();
         }
 
         public void ReadConfig()
@@ -95,12 +79,12 @@ namespace GameLogic
 
         }
 
-        public bool PlayMusic()
+        public bool IsPlayingMusic()
         {
             return playMusic;
         }
 
-        public bool PlaySound()
+        public bool IsPlayingSound()
         {
             return playSound;
         }
@@ -127,29 +111,29 @@ namespace GameLogic
             {
                 sourceObj.Play();
             }
-            configs[100001].Value_3 = playMusic;
-            DataMgr.Instance.SetGameConfig(configs[100001]);
+            DataMgr.Instance.GetConfig()[100001].Value_3 = playMusic;
+            DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100001]);
         }
         public void SetVolumeMusic(float value)
         {
             volumeMusic = Mathf.Clamp(value,0,1);
-            configs[100002].Value_2 = volumeMusic;
-            DataMgr.Instance.SetGameConfig(configs[100002]);
+            DataMgr.Instance.GetConfig()[100002].Value_2 = volumeMusic;
+            DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100002]);
             sourceObj.volume = volumeMusic;
         }
 
         public void SetPlaySound(bool value)
         {
             playSound = value;
-            configs[100101].Value_3 = playSound;
-            DataMgr.Instance.SetGameConfig(configs[100101]);
+            DataMgr.Instance.GetConfig()[100101].Value_3 = playSound;
+            DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100101]);
         }
 
         public void SetVolumeSound(float value)
         {
             volumeSound = Mathf.Clamp(value, 0, 1);
-            configs[100102].Value_2 = volumeSound;
-            DataMgr.Instance.SetGameConfig(configs[100102]);
+            DataMgr.Instance.GetConfig()[100102].Value_2 = volumeSound;
+            DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100102]);
         }
 
 
@@ -157,25 +141,19 @@ namespace GameLogic
         /// 播放背景音乐
         /// </summary>
         /// <param name="p_fileName"></param>
-        public void PlayBG(string index)
+        public void PlayBGM(int index)
         {
-            if (sourceObj.clip == null || index != sourceObj.clip.name || !sourceObj.isPlaying)
+            if (sourceObj.clip == null || !sourceObj.isPlaying)
             {
-                //BGMSetting bgm = BGMSettings.Get(index);
-                //if (bgm != null)
-                //{
-                //    var audioLoader = AudioLoader.Load(bgm.Path, (isOk, loadAudio) =>
-                //    {
-                //        if (isOk)
-                //        {
-                //            sourceObj.clip = loadAudio;
-                //            sourceObj.volume = volumeMusic;
-                //            sourceObj.loop = true;
-                //            if (playMusic)
-                //                sourceObj.Play();
-                //        }
-                //    });
-                //}
+                if (musics != null && musics.ContainsKey(index))
+                {
+                    AudioClip audioClip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[index].Path + musics[index].Name);
+                    sourceObj.clip = audioClip;
+                    sourceObj.volume = volumeMusic;
+                    sourceObj.loop = true;
+                    if (playMusic)
+                        sourceObj.Play();
+                }
             }
         }
 
@@ -189,57 +167,48 @@ namespace GameLogic
         }
 
         //音效 - 播放与停止
-        public void PlaySound(string index)
+        public void PlaySound(int index)
         {
             PlaySound(index, null, /*0.8f,*/ false);
         }
 
-        public void PlaySound(string index, Transform pos)
+        public void PlaySound(int index, Transform pos)
         {
             PlaySound(index, pos,/* 0.8f,*/ false);
         }
 
-        public void PlaySound(string index, Transform emitter, /*float volume,*/ bool loop)
+        public void PlaySound(int index, Transform emitter, bool loop)
         {
             if (playSound == true && volumeSound > 0)
             {
-                //AudioSetting audio = AppSettings.AudioSettings.Get(index);
-                //if (audio != null)
-                //{
-                //    var audioLoader = AudioLoader.Load(audio.Path, (isOk, loadAudio) =>
-                //    {
-                //        if (isOk)
-                //        {
-                //            AudioClip clip = loadAudio;
-
-                //            if (clip != null)
-                //            {
-                //                StartCoroutine(ObjectProcessing(clip, emitter, volumeSound, loop));
-                //            }
-                //        }
-                //    });
-                //}
+                if (sounds != null && sounds.ContainsKey(index))
+                {
+                    AudioClip clip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[index].Path + musics[index].Name);
+                    if (clip != null)
+                    {
+                        StartCoroutine(ObjectProcessing(clip, emitter, volumeSound, loop));
+                    }
+                }
             }
         }
 
-        //WaitForSeconds delay0 = new WaitForSeconds(3.0f);
-        //IEnumerator ObjectProcessing(AudioClip clip, Transform emitter, float volume, bool loop)
-        //{
-        //    GameObject go = SimplePool.Instance.GiveObj(0);
-        //    go.transform.parent = emitter != null ? emitter : transformObj;
-        //    go.transform.localPosition = Vector3.zero;
-        //    go.SetActive(true);
+        IEnumerator ObjectProcessing(AudioClip clip, Transform emitter, float volume, bool loop)
+        {
+            GameObject go = SimplePool.Instance.GiveObj(0);
+            go.transform.parent = emitter != null ? emitter : transformObj;
+            go.transform.localPosition = Vector3.zero;
+            go.SetActive(true);
 
-        //    AudioSource t_source = go.GetComponent<AudioSource>();
-        //    t_source.clip = clip;
-        //    t_source.volume = volume;//AudioSize / 100f;
-        //    t_source.loop = loop;
-        //    t_source.Play();
+            AudioSource t_source = go.GetComponent<AudioSource>();
+            t_source.clip = clip;
+            t_source.volume = volume;//AudioSize / 100f;
+            t_source.loop = loop;
+            t_source.Play();
 
-        //    yield return new WaitForSeconds(clip.length);
+            yield return new WaitForSeconds(clip.length);
 
-        //    SimplePool.Instance.Takeobj(go);
-        //}
+            SimplePool.Instance.Takeobj(go);
+        }
         //#endregion
 
     }

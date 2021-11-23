@@ -8,13 +8,13 @@ namespace GameLogic
     {
         private void Start()
         {
-            //Invoke("Play", 3f);
+            Invoke("Play", 3f);
         }
 
         public void Play()
         {
-            //gameObject.GetComponent<AudioSource>().clip = ResourcesMgr.Instance.LoadAsset<AudioClip>("Audio/BGM/BGM_1");
-            //gameObject.GetComponent<AudioSource>().Play();
+            List<int> musicKey = AudioMgr.Instance.GetMusicKey();
+            AudioMgr.Instance.PlayBGM(musicKey[0]);
         }
     }
 }

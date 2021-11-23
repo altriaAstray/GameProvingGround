@@ -27,7 +27,6 @@ namespace GameLogic
                 {
                     Destroy(value.gameObject);
                 }
-
             }
         }
 

@@ -13,6 +13,15 @@ namespace GameLogic
         Success = 0,
         Fail,
         IsLoding,
+    }    
+    
+    /// <summary>
+    /// 多语言
+    /// </summary>
+    public enum Multilingual
+    {
+        ZH,
+        EN,
     }
 
     /// <summary>
