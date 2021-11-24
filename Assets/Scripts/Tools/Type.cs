@@ -20,8 +20,8 @@ namespace GameLogic
     /// </summary>
     public enum Multilingual
     {
-        ZH,
-        EN,
+        ZH = 0,//中文
+        EN,//英文
     }
 
     /// <summary>

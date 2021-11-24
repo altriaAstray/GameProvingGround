@@ -30,7 +30,14 @@ namespace GameLogic
             SetMultilingual(DataMgr.Instance.GetConfig()[100200].Value_1, true);
         }
 
-
+        /// <summary>
+        /// 获取多语言类型
+        /// </summary>
+        /// <returns></returns>
+        public Multilingual GetMultilingual()
+        {
+            return multilingual;
+        }
 
         /// <summary>
         /// 选择语言
@@ -59,7 +66,7 @@ namespace GameLogic
         }
 
         /// <summary>
-        /// 选择语言
+        /// 选择语言(供脚本外部使用)
         /// </summary>
         /// <param name="value"></param>
         /// <param name="isInit"></param>

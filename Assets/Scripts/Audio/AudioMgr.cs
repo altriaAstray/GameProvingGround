@@ -54,11 +54,6 @@ namespace GameLogic
         public void Init()
         {
             //============初始化声音管理系统=============
-            playMusic = DataMgr.Instance.GetConfig()[100001].Value_3;
-            volumeMusic = DataMgr.Instance.GetConfig()[100002].Value_2;
-
-            playSound = DataMgr.Instance.GetConfig()[100101].Value_3;
-            volumeSound = DataMgr.Instance.GetConfig()[100102].Value_2;
 
             transformObj = transform;
             sourceObj = transformObj.GetComponent<AudioSource>();
@@ -66,6 +61,8 @@ namespace GameLogic
             {
                 sourceObj = gameObject.AddComponent<AudioSource>();
             }
+
+            ReadConfig();
             //----------------声音管理系统初始化完成----------------
         }
 
@@ -79,9 +76,16 @@ namespace GameLogic
             return sounds.Keys.ToList();
         }
 
+        /// <summary>
+        /// 读取配置
+        /// </summary>
         public void ReadConfig()
         {
+            playMusic = DataMgr.Instance.GetConfig()[100001].Value_3;
+            volumeMusic = DataMgr.Instance.GetConfig()[100002].Value_2;
 
+            playSound = DataMgr.Instance.GetConfig()[100101].Value_3;
+            volumeSound = DataMgr.Instance.GetConfig()[100102].Value_2;
         }
 
         public bool IsPlayingMusic()
@@ -103,7 +107,10 @@ namespace GameLogic
         {
             return volumeSound;
         }
-
+        /// <summary>
+        /// 设置背景音开关
+        /// </summary>
+        /// <param name="value"></param>
         public void SetPlayMusic(bool value)
         {
             playMusic = value;
@@ -119,25 +126,35 @@ namespace GameLogic
             DataMgr.Instance.GetConfig()[100001].Value_3 = playMusic;
             DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100001]);
         }
+        /// <summary>
+        /// 设置背景音大小
+        /// </summary>
+        /// <param name="value"></param>
         public void SetVolumeMusic(float value)
         {
             volumeMusic = Mathf.Clamp(value,0,1);
-            DataMgr.Instance.GetConfig()[100002].Value_2 = volumeMusic;
+            DataMgr.Instance.GetConfig()[100002].Value_2 = (float)Math.Round(volumeMusic, 2);
             DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100002]);
             sourceObj.volume = volumeMusic;
         }
-
+        /// <summary>
+        /// 设置特效音开关
+        /// </summary>
+        /// <param name="value"></param>
         public void SetPlaySound(bool value)
         {
             playSound = value;
             DataMgr.Instance.GetConfig()[100101].Value_3 = playSound;
             DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100101]);
         }
-
+        /// <summary>
+        /// 设置特效音大小
+        /// </summary>
+        /// <param name="value"></param>
         public void SetVolumeSound(float value)
         {
             volumeSound = Mathf.Clamp(value, 0, 1);
-            DataMgr.Instance.GetConfig()[100102].Value_2 = volumeSound;
+            DataMgr.Instance.GetConfig()[100102].Value_2 = (float)Math.Round(volumeSound,2);
             DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100102]);
         }
 
@@ -171,17 +188,17 @@ namespace GameLogic
                 sourceObj.Stop();
         }
 
-        //音效 - 播放与停止
+        //特效音 - 播放与停止
         public void PlaySound(int index)
         {
             PlaySound(index, null, /*0.8f,*/ false);
         }
-
+        //特效音 - 播放与停止
         public void PlaySound(int index, Transform pos)
         {
             PlaySound(index, pos,/* 0.8f,*/ false);
         }
-
+        //特效音 - 播放与停止
         public void PlaySound(int index, Transform emitter, bool loop)
         {
             if (playSound == true && volumeSound > 0)
@@ -214,8 +231,6 @@ namespace GameLogic
 
             SimplePool.Instance.Takeobj(go);
         }
-        //#endregion
-
     }
 }
 
