@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameLogic
 {
-    public class Game : MonoBehaviour
+    public class StartGameView : MonoBehaviour
     {
 
         public Dropdown languages;    //语言选择
@@ -117,6 +117,8 @@ namespace GameLogic
         {
             List<int> soundKey = AudioMgr.Instance.GetSoundKey();
             AudioMgr.Instance.PlaySound(soundKey[0]);
+
+            SceneMgr.Instance.LoadScene("MainScene");
         }
         /// <summary>
         /// 退出游戏
