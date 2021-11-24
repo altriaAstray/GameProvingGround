@@ -56,7 +56,7 @@ namespace GameLogic
                     break;
             }
 
-            subject.SetState(multilingual);
+            subject.SetState();
             
             if(isInit == false)
             {
@@ -82,7 +82,7 @@ namespace GameLogic
                     break;
             }
 
-            subject.SetState(multilingual);
+            subject.SetState();
 
             DataMgr.Instance.GetConfig()[100200].Value_1 = value;
             DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100200]);

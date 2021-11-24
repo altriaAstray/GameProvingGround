@@ -12,16 +12,9 @@ namespace GameLogic
     public class LanguageSubject
     {
         private List<LanguageObserver> observers = new List<LanguageObserver>();
-        private Multilingual language;
 
-        public Multilingual GetState()
+        public void SetState()
         {
-            return language;
-        }
-
-        public void SetState(Multilingual state)
-        {
-            this.language = state;
             NotifyAllObservers();
         }
 
