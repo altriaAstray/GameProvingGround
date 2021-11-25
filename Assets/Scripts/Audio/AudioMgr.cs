@@ -28,6 +28,7 @@ namespace GameLogic
 
         Dictionary<int, AudioConfig> musics = new Dictionary<int, AudioConfig>();
         Dictionary<int, AudioConfig> sounds = new Dictionary<int, AudioConfig>();
+        List<int> randomBgm = new List<int>();
 
         private void Start()
         {
@@ -180,9 +181,52 @@ namespace GameLogic
         }
 
         /// <summary>
+        /// 随机播放
+        /// </summary>
+        /// <param name="p_fileName"></param>
+        public void RandomPlayBGM(List<int> Ids)
+        {
+            randomBgm = Ids;
+
+            if (sourceObj.clip == null || !sourceObj.isPlaying)
+            {
+                int index = UnityEngine.Random.Range(0, 5);
+                if (musics != null && musics.ContainsKey(randomBgm[index]))
+                {
+                    AudioClip audioClip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[randomBgm[index]].Path + musics[randomBgm[index]].Name);
+                    sourceObj.clip = audioClip;
+                    sourceObj.volume = volumeMusic;
+                    sourceObj.loop = false;
+                    if (playMusic)
+                        sourceObj.Play();
+                }
+            }
+        }
+
+        public void Update()
+        {
+            if(randomBgm != null && randomBgm.Count >= 5 && playMusic)
+            {
+                if(!sourceObj.isPlaying)
+                {
+                    int index = UnityEngine.Random.Range(0,5);
+                    if (musics != null && musics.ContainsKey(randomBgm[index]))
+                    {
+                        AudioClip audioClip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[randomBgm[index]].Path + musics[randomBgm[index]].Name);
+                        sourceObj.clip = audioClip;
+                        sourceObj.volume = volumeMusic;
+                        sourceObj.loop = false;
+                        sourceObj.Play();
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// 结束背景音乐
         /// </summary>
-        public void StopBG()
+        public void StopBGM()
         {
             if (sourceObj != null)
                 sourceObj.Stop();

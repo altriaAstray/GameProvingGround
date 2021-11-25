@@ -27,7 +27,10 @@ namespace GameLogic
         {
             foreach(LanguageObserver observer in observers)
             {
-                observer.UpdateData();
+                if(observer != null)
+                {
+                    observer.UpdateData();
+                }
             }
         }
 

@@ -113,7 +113,13 @@ namespace GameLogic
         public void Play()
         {
             List<int> musicKey = AudioMgr.Instance.GetMusicKey();
-            AudioMgr.Instance.PlayBGM(musicKey[0]);
+            List<int> musicIds = new List<int>();
+            for(int i = 0;i < 5;i++)
+            {
+                musicIds.Add(musicKey[i]);
+            }
+
+            AudioMgr.Instance.RandomPlayBGM(musicIds);
         }
         /// <summary>
         /// 开始游戏
@@ -123,6 +129,7 @@ namespace GameLogic
             List<int> soundKey = AudioMgr.Instance.GetSoundKey();
             AudioMgr.Instance.PlaySound(soundKey[0]);
 
+            AudioMgr.Instance.StopBGM();
             SceneMgr.Instance.LoadScene("MainScene");
         }
         /// <summary>

@@ -93,7 +93,7 @@ namespace GameLogic
 
             //先异步加载 Loading 界面
             //StartCoroutine(StartLoadSceneOnEditor(m_strLoadSceneName, OnLoadingSceneLoaded, null, LoadSceneMode.Additive));
-            StartCoroutine(OnLoadingScene(OnLoadingSceneLoaded, LoadSceneMode.Additive));
+            StartCoroutine(OnLoadingScene(OnLoadingSceneLoaded, LoadSceneMode.Single));
         }
         
         /// <summary>
