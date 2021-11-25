@@ -66,30 +66,6 @@ namespace GameLogic
         }
 
         /// <summary>
-        /// 选择语言(供脚本外部使用)
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="isInit"></param>
-        public void SetMultilingual(int value)
-        {
-            switch (value)
-            {
-                case 0:
-                    multilingual = Multilingual.ZH;
-                    break;
-                case 1:
-                    multilingual = Multilingual.EN;
-                    break;
-            }
-
-            subject.SetState();
-
-            DataMgr.Instance.GetConfig()[100200].Value_1 = value;
-            DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100200]);
-        }
-
-
-        /// <summary>
         /// 根据语言和索引获得文本内容
         /// </summary>
         /// <param name="index"></param>

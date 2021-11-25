@@ -30,6 +30,11 @@ namespace GameLogic
             if(languages != null)
             {
                 languages.value = (int)LanguagesMgr.Instance.GetMultilingual();
+                languages.onValueChanged.RemoveAllListeners();
+                languages.onValueChanged.AddListener((value)=> 
+                {
+                    LanguagesMgr.Instance.SetMultilingual(value);
+                });
             }
 
             bgmOn.onClick.RemoveAllListeners();

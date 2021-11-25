@@ -30,6 +30,11 @@ namespace GameLogic
                 observer.UpdateData();
             }
         }
+
+        public void Clear()
+        {
+            observers.Clear();
+        }
     }
 }
 
