@@ -25,6 +25,16 @@ namespace GameLogic
     }
 
     /// <summary>
+    /// 敌我识别
+    /// </summary>
+    public enum PlayerType
+    {
+        Player,
+        Player2,
+        Npc,
+    }
+
+    /// <summary>
     /// 资源加载路径
     /// </summary>
     public enum AssetLoadPath
@@ -58,6 +68,13 @@ namespace GameLogic
         Strings,
         CustomType,     //自定义类型
         CustomTypeList  //自定义类型数组
+    }
+
+    enum BallStatic
+    {
+        Launch,
+        InFlight,
+        EndOfFlight,
     }
 }
 

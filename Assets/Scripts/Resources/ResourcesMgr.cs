@@ -93,7 +93,7 @@ namespace GameLogic
 #if UNITY_EDITOR
                 GameObject.DestroyImmediate(asset, true);
 #else
-            GameObject.DestroyObject(asset);
+                GameObject.DestroyObject(asset);
 #endif
             }
             _resourceTable.Clear();

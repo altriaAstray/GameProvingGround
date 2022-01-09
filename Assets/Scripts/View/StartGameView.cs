@@ -12,10 +12,13 @@ namespace GameLogic
         public Button bgmOn;          //背景音开
         public Button bgmOff;         //背景音关
         public Slider bgmVolume;      //背景音大小
+        public Text bgmVolumeStr;     //背景音大小数值
+
 
         public Button soundOn;        //效果音开
         public Button soundOff;       //效果音关
         public Slider soundVolume;    //效果音大小
+        public Text soundVolumeStr;   //效果音大小数值
 
         private void Start()
         {
@@ -94,14 +97,20 @@ namespace GameLogic
             }
 
             bgmVolume.value = DataMgr.Instance.GetConfig()[100002].Value_2;
+            bgmVolumeStr.text = bgmVolume.value.ToString("f1");
+            
             bgmVolume.onValueChanged.AddListener((value) => 
             {
+                bgmVolumeStr.text = value.ToString("f1");
                 AudioMgr.Instance.SetVolumeMusic(value);
             });
 
             soundVolume.value = DataMgr.Instance.GetConfig()[100102].Value_2;
+            soundVolumeStr.text = bgmVolume.value.ToString("f1");
+
             soundVolume.onValueChanged.AddListener((value) =>
             {
+                soundVolumeStr.text = value.ToString("f1");
                 AudioMgr.Instance.SetVolumeSound(value);
             });
             Invoke("Play", 1f);
@@ -126,12 +135,16 @@ namespace GameLogic
         /// </summary>
         public void StartGame()
         {
-            List<int> soundKey = AudioMgr.Instance.GetSoundKey();
-            AudioMgr.Instance.PlaySound(soundKey[0]);
-
             AudioMgr.Instance.StopBGM();
+            AudioMgr.Instance.PlaySound(100030);
+            Invoke("LoadScene", 0.5f);
+        }
+
+        void LoadScene()
+        {
             SceneMgr.Instance.LoadScene("MainScene");
         }
+
         /// <summary>
         /// 退出游戏
         /// </summary>

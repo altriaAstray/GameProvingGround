@@ -19,7 +19,7 @@ namespace GameLogic
 
         void Start()
         {
-            if (subject == null)
+            if (subject == null && LanguagesMgr.Instance != null)
             {
                 subject = LanguagesMgr.Instance.GetLanguageSubject();
                 subject.Attach(this);
@@ -30,8 +30,11 @@ namespace GameLogic
         
         public void GetTextLanguage()
         {
+            if (LanguagesMgr.Instance == null)
+                return;
+
             string value = LanguagesMgr.Instance.GetTextByIndex(key);
-            //Debug.Log(value);
+
             if (!string.IsNullOrEmpty(value))
             {
                 GetComponent<Text>().text = value;

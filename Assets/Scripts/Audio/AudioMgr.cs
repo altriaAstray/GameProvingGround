@@ -228,8 +228,15 @@ namespace GameLogic
         /// </summary>
         public void StopBGM()
         {
+            if(randomBgm != null)
+            {
+                randomBgm.Clear();
+            }
+
             if (sourceObj != null)
+            {
                 sourceObj.Stop();
+            }
         }
 
         //特效音 - 播放与停止

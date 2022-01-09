@@ -16,8 +16,8 @@ namespace GameLogic
         
         public int Id { get; set; }    //id
         public int Index { get; set; }    //索引
-        public string ZH { get; set; }    //值类型
-        public string EN { get; set; }    //值(int)
+        public string ZH { get; set; }    //中文
+        public string EN { get; set; }    //英文
 
 
         public override string ToString()

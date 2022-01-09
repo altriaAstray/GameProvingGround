@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace GameLogic
 {
+    /// <summary>
+    /// 功能：简单对象池
+    /// 创建者：长生
+    /// 日期：2022年1月8日14:35:42
+    /// </summary>
+
     public class SimplePool : SingleToneManager<SimplePool>
     {
 
