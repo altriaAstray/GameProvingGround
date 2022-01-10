@@ -76,6 +76,16 @@ namespace GameLogic
         InFlight,
         EndOfFlight,
     }
+
+    public enum BlockType
+    {
+        Block,               //普通块
+        ElementBlock,        //元素块
+        Bounce,              //反弹
+        ExtraBall,           //分出额外的球
+        KillBall,            //删除球
+        AddBall,             //添加球上限
+    }
 }
 
 namespace GameLogic.Json

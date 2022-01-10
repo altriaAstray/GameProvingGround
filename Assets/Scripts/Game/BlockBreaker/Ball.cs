@@ -61,16 +61,14 @@ namespace GameLogic.BlockBreaker
             }
         }
 
-        private static float SPEED = 9f;                                    //速度
-        private static float MIN_SPEED = 0.3f;                              //最小速度
-        private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;     //卡滞前的最小速度
-        private static float UNSTUCK_BOOST = 7f;                            //防卡助推
-        private static float[] DIRECTION = { 1, 0 };                        //方向
+        private static float SPEED = 18f;                                    //速度
+        private static float MIN_SPEED = 0.3f;                               //最小速度
+        private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;      //卡滞前的最小速度
+        private static float UNSTUCK_BOOST = 12f;                            //防卡助推
+        private static float[] DIRECTION = { 1, -1 };                        //方向
 
-        [SerializeField] BallStatic ballStatic;                             //球的状态
-
-        [SerializeField] private float deleteTime = 0f;                     //防止删除时间
-        private bool deleteBool = false;                                    //是否可以删除
+        [SerializeField] BallStatic ballStatic;                              //球的状态
+        [SerializeField] private float deleteTime = 0f;                      //防止删除时间
 
         void Start()
         {
@@ -97,7 +95,6 @@ namespace GameLogic.BlockBreaker
                     deleteTime += Time.deltaTime;
                     if (deleteTime > 0.2f)
                     {
-                        deleteBool = true;
                         ballStatic = BallStatic.InFlight;
                     }
                     Move();
@@ -106,9 +103,7 @@ namespace GameLogic.BlockBreaker
                     Move();
                     break;
                 case BallStatic.EndOfFlight:
-
                     rb.velocity = rb.velocity.normalized * SPEED;
-                    
                     break;
             }
 
@@ -136,7 +131,7 @@ namespace GameLogic.BlockBreaker
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Player") && deleteBool == true)
+            if (collision.gameObject.CompareTag("Player") && deleteTime > 0.2F)
             {
                 Destroy(this.gameObject);
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
@@ -19,11 +20,9 @@ namespace GameLogic
         [SerializeField] Text text;
         [SerializeField] RectTransform arrow;
 
-        Vector3 aimPoint;           //瞄准位置
-        Vector3 drawnAimPoint;      //画出瞄准位置
-        Vector3 inDirection;        //折射的方向
-
         public LayerMask mask = 1 << 8; //打开第8的层
+
+        Pointer pointer = Pointer.current;//鼠标指针
         enum Direction
         {
             Top,        //方向 上
@@ -50,7 +49,8 @@ namespace GameLogic
         {
             line_renderer.SetPosition(0, this.transform.position);
 
-            Vector3 mousePosition = Input.mousePosition;
+            
+            Vector3 mousePosition = pointer.position.ReadValue();
             text.text = mousePosition.ToString();
 
             Vector3 screenPos = camera.ScreenToWorldPoint(mousePosition);

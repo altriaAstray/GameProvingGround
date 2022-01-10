@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GameLogic
 {
@@ -19,6 +20,8 @@ namespace GameLogic
         [SerializeField] RotatesType rotatesType;           //旋转类型
         [SerializeField] Camera camera;                     //摄像机
         public RectTransform uGUICanvas;                    //对应旋转体负载的Canvas
+
+        Pointer pointer = Pointer.current;//鼠标指针
         void Start()
         {
 
@@ -30,7 +33,9 @@ namespace GameLogic
             if(rotatesType == RotatesType.FollowMouse)
             {
                 Vector3 mousePos;
-                RectTransformUtility.ScreenPointToWorldPointInRectangle(uGUICanvas, new Vector2(Input.mousePosition.x, Input.mousePosition.y), camera, out mousePos);
+                
+                Vector3 mousePosition = pointer.position.ReadValue();
+                RectTransformUtility.ScreenPointToWorldPointInRectangle(uGUICanvas, new Vector2(mousePosition.x, mousePosition.y), camera, out mousePos);
                 float z;
                 if (mousePos.x > transform.position.x)
                 {
