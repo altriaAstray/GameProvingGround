@@ -61,14 +61,15 @@ namespace GameLogic.BlockBreaker
             }
         }
 
-        private static float SPEED = 18f;                                    //速度
-        private static float MIN_SPEED = 0.3f;                               //最小速度
+        private static float SPEED = 12f;                                    //速度
+        private static float MIN_SPEED = 0.7f;                               //最小速度
         private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;      //卡滞前的最小速度
         private static float UNSTUCK_BOOST = 12f;                            //防卡助推
         private static float[] DIRECTION = { 1, -1 };                        //方向
 
         [SerializeField] BallStatic ballStatic;                              //球的状态
         [SerializeField] private float deleteTime = 0f;                      //防止删除时间
+        [SerializeField] private float deleteMaxTime = 0.02f;                //防止删除最大时间
 
         void Start()
         {
@@ -93,7 +94,7 @@ namespace GameLogic.BlockBreaker
             {
                 case BallStatic.Launch:
                     deleteTime += Time.deltaTime;
-                    if (deleteTime > 0.2f)
+                    if (deleteTime > deleteMaxTime)
                     {
                         ballStatic = BallStatic.InFlight;
                     }
@@ -131,7 +132,7 @@ namespace GameLogic.BlockBreaker
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag("Player") && deleteTime > 0.2F)
+            if (collision.gameObject.CompareTag("Player") && deleteTime > deleteMaxTime)
             {
                 Destroy(this.gameObject);
             }

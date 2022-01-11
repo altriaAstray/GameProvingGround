@@ -20,7 +20,7 @@ namespace GameLogic
         [SerializeField] Text text;
         [SerializeField] RectTransform arrow;
 
-        public LayerMask mask = 1 << 8; //打开第8的层
+        public LayerMask mask = (1 << 8); //打开第8的层
 
         Pointer pointer = Pointer.current;//鼠标指针
         enum Direction

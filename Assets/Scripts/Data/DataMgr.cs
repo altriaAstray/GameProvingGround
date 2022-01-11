@@ -22,6 +22,7 @@ namespace GameLogic
         void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             sqlService = new SQLiteLoder();
 
             List<GameConfig> tempConfigs = DataMgr.Instance.GetGameConfig();

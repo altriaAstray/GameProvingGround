@@ -16,6 +16,7 @@ namespace GameLogic
 
         private void Start()
         {
+            DontDestroyOnLoad(gameObject);
             Init();
         }
 

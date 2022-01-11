@@ -18,35 +18,52 @@ namespace GameLogic.BlockBreaker
         [SerializeField] AimLine aimLine;
 
         [SerializeField] float moveSpeed = 5f;
-        [SerializeField] bool moveEnable = true;
-
+        
         Mouse mouse = Mouse.current;//鼠标
         Keyboard keyboard = Keyboard.current;//键盘
 
 
         Vector2 worldPosLeftBottom;
         Vector2 worldPosTopRight;
+
+        [SerializeField] bool createEnable = false;
+        Vector2 spawnVelocity;
+        float timeMax = 0.2f;
+        float time;
+
         void Start()
         {
             worldPosLeftBottom = camera.ViewportToWorldPoint(Vector2.zero);
             worldPosTopRight = camera.ViewportToWorldPoint(Vector2.one);
 
-            Debug.Log(worldPosLeftBottom);
-            Debug.Log(worldPosTopRight);
+            //Debug.Log(worldPosLeftBottom);
+            //Debug.Log(worldPosTopRight);
         }
 
         void Update()
         {
+            if (ballRoot.childCount <= 0)
+            {
+                if(aimLine.gameObject.activeSelf == false)
+                 aimLine.gameObject.SetActive(true);
+            }
+            else
+            {
+                if (aimLine.gameObject.activeSelf == true)
+                    aimLine.gameObject.SetActive(false);
+            }
 
-            if(mouse != null)
+            if(mouse != null && ballRoot.childCount <= 0)
             {
                 if (mouse.leftButton.wasPressedThisFrame)
                 {
-                    CreateSpawner();
+                    spawnVelocity = aimLine.GetLineRenderer().GetPosition(1) - aimLine.GetLineRenderer().GetPosition(0);
+                    createEnable = true;
+                    BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunitionMax());
                 }
             }
 
-            if (keyboard != null)
+            if (keyboard != null && ballRoot.childCount <= 0)
             {
                 if (keyboard.wKey.isPressed)
                 {
@@ -60,7 +77,30 @@ namespace GameLogic.BlockBreaker
 
                 LimitPosition(transform);
             }
+
+            if(createEnable)
+            {
+                time += Time.deltaTime;
+                if(time > timeMax)
+                {
+                    time = 0;
+                    
+                    if(BlockMgr.Instance.GetNumberOfAmmunition() > 0)
+                    {
+                        CreateSpawner();
+                        BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunition() - 1);
+                    }
+                    else if(BlockMgr.Instance.GetNumberOfAmmunition() == 0 && ballRoot.childCount <= 0)
+                    {
+                        BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunition() - 1);
+                        BlockMgr.Instance.MoveBlock();
+                        BlockMgr.Instance.CreateBlock();
+                    }
+                }
+            }
         }
+
+
 
         /// <summary>
         /// 限制移动
@@ -80,7 +120,6 @@ namespace GameLogic.BlockBreaker
             go.transform.SetParent(ballRoot);
             go.transform.localScale = new Vector3(0.5f, 0.5f, 0.2f);
 
-            Vector2 spawnVelocity = aimLine.GetLineRenderer().GetPosition(1) - aimLine.GetLineRenderer().GetPosition(0);
             Ball ball = go.GetComponent<Ball>();
             ball.InitialVelocity = spawnVelocity;
         }

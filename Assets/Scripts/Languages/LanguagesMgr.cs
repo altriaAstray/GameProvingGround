@@ -20,6 +20,7 @@ namespace GameLogic
 
         public void Start()
         {
+            DontDestroyOnLoad(gameObject);
             List<Languages> tempConfigs = DataMgr.Instance.GetLanguages();
 
             foreach (Languages tempData in tempConfigs)

@@ -32,6 +32,8 @@ namespace GameLogic
 
         private void Start()
         {
+            DontDestroyOnLoad(gameObject);
+
             List<AudioConfig> tempAudios = DataMgr.Instance.GetAudio();
 
             foreach (AudioConfig tempData in tempAudios)

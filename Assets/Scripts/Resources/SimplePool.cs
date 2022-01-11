@@ -24,6 +24,7 @@ namespace GameLogic
         public void Awake()
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             Init();
         }
 

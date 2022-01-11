@@ -79,7 +79,12 @@ namespace GameLogic
 
     public enum BlockType
     {
-        Block,               //普通块
+        OrdinaryBlock,       //普通块
+        //OrdinaryTriangleBlock_UpperLeft,     //普通三角形块 左上
+        //OrdinaryTriangleBlock_LowerLeft,     //普通三角形块 左下
+        //OrdinaryTriangleBlock_UpperRight,    //普通三角形块 右上
+        //OrdinaryTriangleBlock_LowerRight,    //普通三角形块 右下
+        SpecialShapedBlock,  //异形块
         ElementBlock,        //元素块
         Bounce,              //反弹
         ExtraBall,           //分出额外的球

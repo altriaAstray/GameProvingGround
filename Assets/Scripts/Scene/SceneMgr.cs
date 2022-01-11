@@ -30,6 +30,7 @@ namespace GameLogic
 
         private void Start()
         {
+            DontDestroyOnLoad(gameObject);
             Instance.m_strCurSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         }
 
