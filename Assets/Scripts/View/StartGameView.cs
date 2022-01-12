@@ -121,14 +121,8 @@ namespace GameLogic
         /// </summary>
         public void Play()
         {
-            List<int> musicKey = AudioMgr.Instance.GetMusicKey();
-            List<int> musicIds = new List<int>();
-            for(int i = 0;i < 5;i++)
-            {
-                musicIds.Add(musicKey[i]);
-            }
-
-            AudioMgr.Instance.RandomPlayBGM(musicIds);
+            List<int> musicKey = AudioMgr.Instance.GetMusicKeyByType(1);
+            AudioMgr.Instance.RandomPlayBGM(musicKey);
         }
         /// <summary>
         /// 开始游戏
@@ -136,7 +130,7 @@ namespace GameLogic
         public void StartGame()
         {
             AudioMgr.Instance.StopBGM();
-            AudioMgr.Instance.PlaySound(100030);
+            AudioMgr.Instance.PlaySound(100014);
             Invoke("LoadScene", 0.5f);
         }
 

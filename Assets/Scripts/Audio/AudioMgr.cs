@@ -38,11 +38,11 @@ namespace GameLogic
 
             foreach (AudioConfig tempData in tempAudios)
             {
-                if(tempData.Type == 1)
+                if(tempData.Type == 1 || tempData.Type == 2)
                 {
                     musics.Add(tempData.Index, tempData);
-                } 
-                else if (tempData.Type == 2)
+                }
+                else if (tempData.Type == 3)
                 {
                     sounds.Add(tempData.Index, tempData);
                 }
@@ -72,6 +72,18 @@ namespace GameLogic
         public List<int> GetMusicKey()
         {
             return musics.Keys.ToList();
+        }
+
+        public List<int> GetMusicKeyByType(int type)
+        {
+            var query = from r in musics where r.Value.Type == type select r;
+            List<int> list = new List<int>();
+
+            foreach (KeyValuePair<int ,AudioConfig> kv in query)
+            {
+                list.Add(kv.Key); 
+            }
+            return list;
         }
 
         public List<int> GetSoundKey()
@@ -207,11 +219,11 @@ namespace GameLogic
 
         public void Update()
         {
-            if(randomBgm != null && randomBgm.Count >= 5 && playMusic)
+            if(randomBgm != null && randomBgm.Count > 0 && playMusic)
             {
                 if(!sourceObj.isPlaying)
                 {
-                    int index = UnityEngine.Random.Range(0,5);
+                    int index = UnityEngine.Random.Range(0, randomBgm.Count);
                     if (musics != null && musics.ContainsKey(randomBgm[index]))
                     {
                         AudioClip audioClip = ResourcesMgr.Instance.LoadAsset<AudioClip>(musics[randomBgm[index]].Path + musics[randomBgm[index]].Name);
@@ -270,19 +282,30 @@ namespace GameLogic
         IEnumerator ObjectProcessing(AudioClip clip, Transform emitter, float volume, bool loop)
         {
             GameObject go = SimplePool.Instance.GiveObj(0);
-            go.transform.parent = emitter != null ? emitter : transformObj;
-            go.transform.localPosition = Vector3.zero;
-            go.SetActive(true);
+            if(go != null)
+            {
+                if (emitter != null)
+                {
+                    go.transform.parent = emitter;
+                }
+                else
+                {
+                    go.transform.parent = transformObj;
+                }
 
-            AudioSource t_source = go.GetComponent<AudioSource>();
-            t_source.clip = clip;
-            t_source.volume = volume;//AudioSize / 100f;
-            t_source.loop = loop;
-            t_source.Play();
+                go.transform.localPosition = Vector3.zero;
+                go.SetActive(true);
 
-            yield return new WaitForSeconds(clip.length);
+                AudioSource t_source = go.GetComponent<AudioSource>();
+                t_source.clip = clip;
+                t_source.volume = volume;//AudioSize / 100f;
+                t_source.loop = loop;
+                t_source.Play();
 
-            SimplePool.Instance.Takeobj(go);
+                yield return new WaitForSeconds(clip.length);
+
+                SimplePool.Instance.Takeobj(go);
+            }
         }
     }
 }

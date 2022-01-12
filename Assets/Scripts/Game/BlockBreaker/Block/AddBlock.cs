@@ -7,7 +7,6 @@ namespace GameLogic.BlockBreaker
 {
     public class AddBlock : BlockBase
     {
-        //[SerializeField] Text pointText;
 
         private void Start()
         {
@@ -49,6 +48,8 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
+                if (AudioMgr.Instance != null)
+                    AudioMgr.Instance.PlaySound(100028);
                 point--;
                 BlockMgr.Instance.AddNumberOfAmmunition();
                 if (point <= 0)
@@ -62,6 +63,8 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
+                if (AudioMgr.Instance != null)
+                    AudioMgr.Instance.PlaySound(100028);
                 point--;
                 BlockMgr.Instance.AddNumberOfAmmunition();
                 if (point <= 0)

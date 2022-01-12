@@ -62,7 +62,7 @@ namespace GameLogic
             
             if(hit.collider != null)
             {
-                if(hit.collider.tag == "Wall" || hit.collider.tag == "Wall2")
+                if(hit.collider.tag == "Wall")
                 {
                     line_renderer.SetPosition(1, hit.point);
 

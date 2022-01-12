@@ -12,7 +12,7 @@ namespace GameLogic.BlockBreaker
     public class BallStuckWatchdog : MonoBehaviour
     {
         [SerializeField] private Dictionary<Ball, float> stuckBalls = new Dictionary<Ball, float>();
-        private static float TIME_TILL_ASSUMED_STUCK = 5.5f;
+        private static float TIME_TILL_ASSUMED_STUCK = 7f;
 
         void Update()
         {

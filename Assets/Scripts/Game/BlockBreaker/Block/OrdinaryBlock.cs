@@ -48,8 +48,9 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
+                if (AudioMgr.Instance != null)
+                    AudioMgr.Instance.PlaySound(100022);
                 point--;
-
                 BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 1);
 
                 if (point <= 0)
@@ -63,6 +64,8 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
+                if (AudioMgr.Instance != null)
+                    AudioMgr.Instance.PlaySound(100022);
                 point --;
                 if(point <= 0)
                 {

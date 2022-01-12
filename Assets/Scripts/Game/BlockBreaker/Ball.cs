@@ -10,10 +10,10 @@ namespace GameLogic.BlockBreaker
     /// 日期：2022年1月9日11:06:18
     /// </summary>
 
-    public class Ball : MonoBehaviour
+    public class Ball : TotalScoreObserver
     {
         private Rigidbody2D rb;                     //刚体
-        private BallStuckWatchdog watchdog;              //监察人
+        private BallStuckWatchdog watchdog;         //监察人
 
 
         private Vector2 initialVelocity;            //初始速度
@@ -61,10 +61,10 @@ namespace GameLogic.BlockBreaker
             }
         }
 
-        private static float SPEED = 12f;                                    //速度
+        private static float SPEED = 20f;                                    //速度
         private static float MIN_SPEED = 0.7f;                               //最小速度
         private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;      //卡滞前的最小速度
-        private static float UNSTUCK_BOOST = 12f;                            //防卡助推
+        private static float UNSTUCK_BOOST = 20f;                            //防卡助推
         private static float[] DIRECTION = { 1, -1 };                        //方向
 
         [SerializeField] BallStatic ballStatic;                              //球的状态
@@ -73,6 +73,12 @@ namespace GameLogic.BlockBreaker
 
         void Start()
         {
+            if (subject == null && BlockMgr.Instance != null)
+            {
+                subject = BlockMgr.Instance.GetSubject();
+                subject.Attach(this);
+            }
+
             rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
@@ -89,11 +95,10 @@ namespace GameLogic.BlockBreaker
 
         void FixedUpdate()
         {
-            
+            deleteTime += Time.deltaTime;
             switch (ballStatic)
             {
                 case BallStatic.Launch:
-                    deleteTime += Time.deltaTime;
                     if (deleteTime > deleteMaxTime)
                     {
                         ballStatic = BallStatic.InFlight;
@@ -145,20 +150,6 @@ namespace GameLogic.BlockBreaker
                 ballStatic = BallStatic.EndOfFlight;
                 rb.velocity = Vector2.zero;
                 rb.velocity = Launcher.Instance.transform.position - this.transform.position;
-                //float[] direction = { -1f, 1f };
-                //float angle = direction[UnityEngine.Random.Range(0, 2)] * 45;
-                //Vector2 newVelocity = AngleVelocityByDegree(angle);
-
-
-                //Vector3 face = this.transform.up;
-                //Vector3 direction = Launcher.Instance.transform.position - this.transform.position;
-                //float angle = Vector3.SignedAngle(face, direction, Vector3.forward);
-                ////AngleVelocityByDegree(angle);
-
-                //rb.MoveRotation(angle);
-                //Quaternion lookRotation = Quaternion.LookRotation(dir);
-                //Vector3 rotation = Quaternion.Lerp(rotatepos.transform.rotation, lookRotation, 10).eulerAngles;
-                //rotatepos.transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
             }
         }
 
@@ -199,8 +190,12 @@ namespace GameLogic.BlockBreaker
 
         public void KillBall(bool killedByBorder)
         {
-            //gamemode.BallDestroyed(this, killedByBorder);
             Destroy(this.gameObject);
+        }
+
+        public override void UpdateData()
+        {
+            //watchdog.RemovePossibleStuckBall(this);
         }
     }
 }
