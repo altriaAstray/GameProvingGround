@@ -55,9 +55,9 @@ namespace GameLogic.BlockBreaker
                 GameObject spawnedObject = Instantiate(objectToSpawn, spawnPosition, Quaternion.identity);
                 Ball duplicate = spawnedObject.GetComponent<Ball>();
                 spawnedObject.transform.SetParent(Launcher.Instance.GetBallRoot());
-                spawnedObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.1f);
+                spawnedObject.transform.localScale = new Vector3(1f, 1f, 1f);
                 duplicate.Duplicate = true;
-                spawnedObject.transform.Find("Icon").GetComponent<SpriteRenderer>().color = Tools.HexToColor("3EFF2FFF");
+                spawnedObject.transform.Find("Icon").GetComponent<Image>().color = Tools.HexToColor("3EFF2FFF");
                 duplicate.InitialVelocity = duplicate.AngleVelocityByDegree(-angle * 2, newVelocity);
             }
         }

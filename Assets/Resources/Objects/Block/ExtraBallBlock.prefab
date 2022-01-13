@@ -92,7 +92,7 @@ MonoBehaviour:
   blockType: 4
   isDestroy: 0
   point: 99
-  objectToSpawn: {fileID: 1678998330674311259, guid: 8599e19beb4a840409c6f589e109c53b,
+  objectToSpawn: {fileID: 2443295981237335993, guid: 4b9317596b23c15439c4d278cadefefc,
     type: 3}
 --- !u!58 &8323993486261591285
 CircleCollider2D:

@@ -129,7 +129,7 @@ namespace GameLogic.BlockBreaker
             GameObject go = Instantiate(ballObj, transform.position, Quaternion.identity);
             go.SetActive(true);
             go.transform.SetParent(ballRoot);
-            go.transform.localScale = new Vector3(0.4f, 0.4f, 0.1f);
+            go.transform.localScale = new Vector3(1f, 1f, 1f);
 
             Ball ball = go.GetComponent<Ball>();
             ball.InitialVelocity = spawnVelocity;

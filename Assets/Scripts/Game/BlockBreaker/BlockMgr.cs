@@ -201,6 +201,7 @@ namespace GameLogic.BlockBreaker
 
         public void GoBack()
         {
+            AudioMgr.Instance.StopBGM();
             SceneMgr.Instance.LoadScene("GameStartScene");
         }
 
