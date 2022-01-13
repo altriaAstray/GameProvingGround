@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace GameLogic.BlockBreaker
 {
     /// <summary>
-    /// 功能：球碰撞会增球数的块
+    /// 功能：增加球总数的块
     /// 创建者：长生
     /// 时间：2021年11月20日10:32:26
     /// </summary>
@@ -15,6 +15,7 @@ namespace GameLogic.BlockBreaker
 
         private void Start()
         {
+            isDestroy = false;
             blockType = BlockType.AddBall;
             point = 1;
         }

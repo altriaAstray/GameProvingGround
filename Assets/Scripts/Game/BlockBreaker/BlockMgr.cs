@@ -46,12 +46,12 @@ namespace GameLogic.BlockBreaker
             rectTransform = canvas.transform as RectTransform;
             screenSize = rectTransform.rect.size;
 
-            blockCount_X = (int)Math.Floor(screenSize.x / blockSize);
-            blockCount_Y = (int)Math.Floor(screenSize.y / blockSize);
+            blockCount_X = (int)Math.Round(screenSize.x / blockSize);
+            blockCount_Y = (int)Math.Round(screenSize.y / blockSize);
 
             float y = ((float)screenSize.y / (float)blockSize - (float)blockCount_Y) * 120 / 2;
 
-            stratPos = new Vector2((screenSize.x / 2) - 200 - 60, (screenSize.y / 2) - 60 - y);
+            stratPos = new Vector2((screenSize.x / 2) - 240 - 60, (screenSize.y / 2) - 60 - y);
 
             CreateBlock();
         }
@@ -86,7 +86,9 @@ namespace GameLogic.BlockBreaker
             return numberOfAmmunitionMax;
         }
 
-        //方块生成
+        /// <summary>
+        /// 方块生成
+        /// </summary>
         public void CreateBlock()
         {            
             for(int i = 0; i < blockCount_Y; i++)
@@ -101,9 +103,9 @@ namespace GameLogic.BlockBreaker
                     gameObject.GetComponent<RectTransform>().localScale = Vector3.one;
 
                     int value = UnityEngine.Random.Range(0, 10);
-                    if (value < 3)
+                    if (value < 4)
                     {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(0, 5);
+                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(3, 5);
                     }
                     else if (value < 7)
                     {
@@ -129,17 +131,22 @@ namespace GameLogic.BlockBreaker
 
             int value = UnityEngine.Random.Range(0, 1000);
 
-            if (value < 450)
+            if (value < 500)
             {
                 result = 0;
             }
-            else if (value < 850)
+            else if (value < 700)
             {
                 result = 1;
             }
+            else if (value < 950)
+            {
+                result = UnityEngine.Random.Range(2, 6);
+            }
+
             else if (value <= 1000)
             {
-                result = UnityEngine.Random.Range(2, blockBases.Count);
+                result = 6;
             }
 
             return result;
@@ -151,13 +158,22 @@ namespace GameLogic.BlockBreaker
             for (int i = 0; i < blockRoot.childCount; i++)
             {
                 Transform @transform = blockRoot.GetChild(i);
-                Vector3 pos = @transform.GetComponent<RectTransform>().localPosition;
-                @transform.GetComponent<RectTransform>().localPosition = new Vector3(pos.x - 120, pos.y, pos.z);
-
-                if(@transform.GetComponent<RectTransform>().localPosition.x < gameOverWall.localPosition.x)
+                
+                if(@transform.GetComponent<BlockBase>() != null && 
+                    @transform.GetComponent<BlockBase>().isDestroy == true)
                 {
-                    GameOver();
-                    return;
+                    Destroy(@transform.gameObject);
+                }
+                else
+                {
+                    Vector3 pos = @transform.GetComponent<RectTransform>().localPosition;
+                    @transform.GetComponent<RectTransform>().localPosition = new Vector3(pos.x - 120, pos.y, pos.z);
+
+                    if (@transform.GetComponent<RectTransform>().localPosition.x < gameOverWall.localPosition.x)
+                    {
+                        GameOver();
+                        return;
+                    }
                 }
             }
         }
@@ -181,6 +197,16 @@ namespace GameLogic.BlockBreaker
                 0,
                 Launcher.Instance.transform.localPosition.z);
             Debug.Log("游戏结束");
+        }
+
+        public void GoBack()
+        {
+            SceneMgr.Instance.LoadScene("GameStartScene");
+        }
+
+        public void Exit()
+        {
+            Application.Quit();
         }
     }
 }

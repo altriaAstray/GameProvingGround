@@ -19,6 +19,7 @@ namespace GameLogic.BlockBreaker
 
         private void Start()
         {
+            isDestroy = false;
             blockType = BlockType.OrdinaryBlock;
         }
 

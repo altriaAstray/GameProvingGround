@@ -2649,7 +2649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectsList:
   - obj: {fileID: 4615561228575901350, guid: aaf73037b9a2b7e4fb378f40327cd0d3, type: 3}
-    numberObjects: 10
+    numberObjects: 20
   - obj: {fileID: 0}
     numberObjects: 0
   - obj: {fileID: 0}

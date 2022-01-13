@@ -12,6 +12,7 @@ namespace GameLogic.BlockBreaker
     public abstract class BlockBase : MonoBehaviour
     {
         public BlockType blockType;
+        public bool isDestroy;
 
         [SerializeField] public int point;
 

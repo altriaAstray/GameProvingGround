@@ -102,6 +102,15 @@ namespace GameLogic.BlockBreaker
         }
 
         /// <summary>
+        /// 获得根目录
+        /// </summary>
+        /// <returns></returns>
+        public Transform GetBallRoot()
+        {
+            return ballRoot;
+        }
+
+        /// <summary>
         /// 限制移动
         /// </summary>
         /// <param name="trNeedLimit"></param>

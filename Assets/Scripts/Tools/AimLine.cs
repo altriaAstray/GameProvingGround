@@ -17,7 +17,6 @@ namespace GameLogic
         [SerializeField] LineRenderer line_renderer;
         [SerializeField] LineRenderer line_renderer_refraction;
         [SerializeField] Camera camera;
-        [SerializeField] Text text;
         [SerializeField] RectTransform arrow;
 
         public LayerMask mask = (1 << 8); //打开第8的层
@@ -51,7 +50,6 @@ namespace GameLogic
 
             
             Vector3 mousePosition = pointer.position.ReadValue();
-            text.text = mousePosition.ToString();
 
             Vector3 screenPos = camera.ScreenToWorldPoint(mousePosition);
             Vector2 screenPos2 = screenPos;
