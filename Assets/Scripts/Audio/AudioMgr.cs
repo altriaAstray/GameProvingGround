@@ -20,20 +20,21 @@ namespace GameLogic
         AudioSource sourceObj;
         Transform transformObj;
 
+        //背景音乐
         bool playMusic = true;
         float volumeMusic = 0.5f;
-
+        Dictionary<int, AudioConfig> musics = new Dictionary<int, AudioConfig>();   //全部bgm
+        List<int> randomBgm = new List<int>();                                      //bgm随机播放
+        //特效音
         bool playSound = true;
         float volumeSound = 0.5f;
-
-        Dictionary<int, AudioConfig> musics = new Dictionary<int, AudioConfig>();
-        Dictionary<int, AudioConfig> sounds = new Dictionary<int, AudioConfig>();
-        List<int> randomBgm = new List<int>();
+        Dictionary<int, AudioConfig> sounds = new Dictionary<int, AudioConfig>();   //全部特效音
 
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
 
+            //加载特效音
             List<AudioConfig> tempAudios = DataMgr.Instance.GetAudio();
 
             foreach (AudioConfig tempData in tempAudios)
@@ -69,11 +70,20 @@ namespace GameLogic
             //----------------声音管理系统初始化完成----------------
         }
 
+        /// <summary>
+        /// 获取全部音乐键
+        /// </summary>
+        /// <returns>全部音乐键</returns>
         public List<int> GetMusicKey()
         {
             return musics.Keys.ToList();
         }
 
+        /// <summary>
+        /// 根据类型获取全部音乐键
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns>全部音乐键</returns>
         public List<int> GetMusicKeyByType(int type)
         {
             var query = from r in musics where r.Value.Type == type select r;
@@ -86,6 +96,10 @@ namespace GameLogic
             return list;
         }
 
+        /// <summary>
+        /// 获取全部音效键
+        /// </summary>
+        /// <returns>全部音效键</returns>
         public List<int> GetSoundKey()
         {
             return sounds.Keys.ToList();
@@ -103,21 +117,34 @@ namespace GameLogic
             volumeSound = DataMgr.Instance.GetConfig()[100102].Value_2;
         }
 
+        /// <summary>
+        /// 是否播放BGM
+        /// </summary>
+        /// <returns>是否</returns>
         public bool IsPlayingMusic()
         {
             return playMusic;
         }
-
+        /// <summary>
+        /// 是否播放特效音
+        /// </summary>
+        /// <returns>是否</returns>
         public bool IsPlayingSound()
         {
             return playSound;
         }
-
+        /// <summary>
+        /// 播放BGM声音大小
+        /// </summary>
+        /// <returns>值</returns>
         public float VolumeMusic()
         {
             return volumeMusic;
         }
-
+        /// <summary>
+        /// 播放特效音声音大小
+        /// </summary>
+        /// <returns>值</returns>
         public float VolumeSound()
         {
             return volumeSound;
@@ -279,6 +306,14 @@ namespace GameLogic
             }
         }
 
+        /// <summary>
+        /// 对象处理（生成声音对象）
+        /// </summary>
+        /// <param name="clip"></param>
+        /// <param name="emitter"></param>
+        /// <param name="volume"></param>
+        /// <param name="loop"></param>
+        /// <returns></returns>
         IEnumerator ObjectProcessing(AudioClip clip, Transform emitter, float volume, bool loop)
         {
             GameObject go = SimplePool.Instance.GiveObj(0);

@@ -35,8 +35,6 @@ namespace GameLogic.BlockBreaker
         [SerializeField] int numberOfAmmunitionMax = 1;                 //弹珠总数量
         [SerializeField] int numberOfAmmunition = -1;                   //弹珠数量
 
-
-        TotalScoreSubject totalScoreSubject = new TotalScoreSubject();  //积分被观察者
         public void Start()
         {
             if (AudioMgr.Instance != null)
@@ -73,7 +71,6 @@ namespace GameLogic.BlockBreaker
         public void AddNumberOfAmmunition()
         {
             numberOfAmmunitionMax++;
-            totalScoreSubject.SetState();
         }
 
         public void SetNumberOfAmmunition(int value)
@@ -122,6 +119,10 @@ namespace GameLogic.BlockBreaker
             }
         }
 
+        /// <summary>
+        /// 随机方块
+        /// </summary>
+        /// <returns></returns>
         int BlockRandom()
         {
             int result = 0;
@@ -161,14 +162,15 @@ namespace GameLogic.BlockBreaker
             }
         }
 
-        //方块计分
-
         public void FixedUpdate()
         {
             totalScoreText.text = totalScore.ToString();
             numberOfAmmunitionMaxText.text = numberOfAmmunitionMax.ToString();
         }
 
+        /// <summary>
+        /// 游戏结束
+        /// </summary>
         public void GameOver()
         {
             numberOfAmmunitionMax = 1;
@@ -179,11 +181,6 @@ namespace GameLogic.BlockBreaker
                 0,
                 Launcher.Instance.transform.localPosition.z);
             Debug.Log("游戏结束");
-        }
-
-        public TotalScoreSubject GetSubject()
-        {
-            return totalScoreSubject;
         }
     }
 }

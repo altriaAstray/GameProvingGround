@@ -5,9 +5,9 @@ using UnityEngine;
 using System.Linq;
 
 /// <summary>
+/// 功能：数据管理器
 /// 创建者：长生
 /// 时间：2021年11月20日10:32:26
-/// 功能：数据管理器
 /// </summary>
 
 namespace GameLogic
@@ -25,7 +25,7 @@ namespace GameLogic
             DontDestroyOnLoad(gameObject);
             sqlService = new SQLiteLoder();
 
-            List<GameConfig> tempConfigs = DataMgr.Instance.GetGameConfig();
+            List<GameConfig> tempConfigs = GetGameConfig();
             foreach (GameConfig tempData in tempConfigs)
             {
                 configs.Add(tempData.Index, tempData);
@@ -38,35 +38,53 @@ namespace GameLogic
         }
 
         //-------------------------------------
+        /// <summary>
+        /// 获取游戏配置表数据（已从数据库读取）
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<int, GameConfig> GetConfig()
         {
             return configs;
         }
 
         //-------------------------------------
+        /// <summary>
+        /// 获取音频配置表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
         public List<AudioConfig> GetAudio()
         {
             IEnumerable<AudioConfig> audios = sqlService.GetTable<AudioConfig>();
             return audios.ToList();
         }
         //-------------------------------------
+        /// <summary>
+        /// 获取游戏配置表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
         public List<GameConfig> GetGameConfig()
         {
             IEnumerable<GameConfig> configs = sqlService.GetTable<GameConfig>();
             return configs.ToList();            
         }
-
+        /// <summary>
+        /// 设置游戏配置表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
         public void SetGameConfig(GameConfig config)
         {
             sqlService.Update<GameConfig>(config);
         }
         //-------------------------------------
+        /// <summary>
+        /// 获取语言配置表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
         public List<Languages> GetLanguages()
         {
             IEnumerable<Languages> configs = sqlService.GetTable<Languages>();
             return configs.ToList();
         }
-
         //-------------------------------------
 
 

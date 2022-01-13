@@ -3,8 +3,14 @@ using System.Collections;
 
 namespace GameLogic
 {
+    /// <summary>
+    /// 功能：贝塞尔曲线
+    /// 创建者：长生
+    /// 日期：2021年11月23日11:22:09
+    /// </summary>
+    
     [ExecuteInEditMode]
-    public class CBezier : MonoBehaviour
+    public class Bezier : MonoBehaviour
     {
 
         [SerializeField]
@@ -17,8 +23,6 @@ namespace GameLogic
             }
         }
 
-
-        // Update is called once per frame
         void Update()
         {
             int count = 20;
@@ -26,8 +30,6 @@ namespace GameLogic
             for (int i = 0; i <= count; ++i)
             {
                 Vector3 to = bezier(i / (float)count);
-                //Debug.DrawLine(prev_pos, to);
-
                 prev_pos = to;
             }
         }
@@ -42,13 +44,16 @@ namespace GameLogic
                 {
                     Vector3 current = this.points[i].position;
                     Vector3 next = this.points[i + 1].position;
-
                     //Gizmos.DrawLine(current, next);
                 }
             }
         }
 
-
+        /// <summary>
+        /// 贝塞尔（根据顶点数判断贝塞尔类型）
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public Vector3 bezier(float t)
         {
             if (this.points.Length == 3)
@@ -63,7 +68,11 @@ namespace GameLogic
             return Vector3.zero;
         }
 
-
+        /// <summary>
+        /// 根据三个顶点生成的贝塞尔曲线
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public Vector3 bezier2(float t)
         {
             Vector3 a = this.points[0].position;
@@ -75,7 +84,11 @@ namespace GameLogic
             return aa + (bb - aa) * t;
         }
 
-
+        /// <summary>
+        /// 根据四个顶点生成的贝塞尔曲线
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         Vector3 bezier3(float t)
         {
             Vector3 a = this.points[0].position;

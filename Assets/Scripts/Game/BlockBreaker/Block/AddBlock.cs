@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 namespace GameLogic.BlockBreaker
 {
+    /// <summary>
+    /// 功能：球碰撞会增球数的块
+    /// 创建者：长生
+    /// 时间：2021年11月20日10:32:26
+    /// </summary>
     public class AddBlock : BlockBase
     {
 
@@ -14,59 +19,18 @@ namespace GameLogic.BlockBreaker
             point = 1;
         }
 
-        public void Update()
-        {
-
-        }
-
         public override void DestroyObj()
         {
             Destroy(this.gameObject);
-        }
-
-        public override void EffectTrigger()
-        {
-
-        }
-
-        public override BlockType GetBlockType()
-        {
-            return blockType;
-        }
-
-        public override void SetPosition(Vector3 pos)
-        {
-            transform.position = pos;
-        }
-
-        public override void EndGame()
-        {
-
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Ball"))
-            {
-                if (AudioMgr.Instance != null)
-                    AudioMgr.Instance.PlaySound(100028);
-                point--;
-                BlockMgr.Instance.AddNumberOfAmmunition();
-                if (point <= 0)
-                {
-                    DestroyObj();
-                }
-            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                if (AudioMgr.Instance != null)
-                    AudioMgr.Instance.PlaySound(100028);
                 point--;
                 BlockMgr.Instance.AddNumberOfAmmunition();
+                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 2);
                 if (point <= 0)
                 {
                     DestroyObj();

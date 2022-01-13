@@ -30,7 +30,6 @@ namespace GameLogic
             }
         }
 
-        // Start is called before the first frame update
         void Awake()
         {
             Instance = this as T;

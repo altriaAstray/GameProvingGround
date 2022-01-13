@@ -4,13 +4,18 @@ using UnityEngine;
 
 namespace GameLogic
 {
+    /// <summary>
+    /// 功能：手牌渲染用（测试）
+    /// 创建者：长生
+    /// 日期：2022年1月13日13:07:13
+    /// </summary>
     public class HandCard_Bezier : MonoBehaviour
     {
         [SerializeField] int node_count = 7;
         [SerializeField] int node_current_count;
 
         [SerializeField] LineRenderer line_renderer;
-        [SerializeField] CBezier bezier;
+        [SerializeField] Bezier bezier;
         [SerializeField] GameObject CardPrefab;
         [SerializeField] GameObject Point_1;
         [SerializeField] GameObject Point_2;
@@ -33,11 +38,18 @@ namespace GameLogic
             
         }
 
+        /// <summary>
+        /// 设置点的数量
+        /// </summary>
+        /// <param name="count"></param>
         void set_vertex_count(int count)
         {
             this.line_renderer.positionCount = count;
         }
 
+        /// <summary>
+        /// 创建游戏对象（并设置对象位置）
+        /// </summary>
         public void OnCreateGO()
         {
             var offsetZ = -1;
@@ -63,14 +75,16 @@ namespace GameLogic
             set_vertex_count(node_count);
         }
 
-
+        /// <summary>
+        /// 清除并重新生成
+        /// </summary>
         public void OnCloseGO()
         {
             cards.Clear();
             Tools.ClearChild(parent);
 
             OnCreateGO();
-            set_vertex_count(node_count);
+            //set_vertex_count(node_count);
         }
 
         // 每帧调用一次更新
@@ -132,7 +146,7 @@ namespace GameLogic
             //神奇的数学因子
             float magicMathFactor = 0.1f;
             float result = -(fullAngle / 2) + fullAngle * magicMathFactor;
-            //Debug.Log(result);
+
             return result;
         }
     }

@@ -10,7 +10,7 @@ namespace GameLogic.BlockBreaker
     /// 日期：2022年1月9日11:06:18
     /// </summary>
 
-    public class Ball : TotalScoreObserver
+    public class Ball : MonoBehaviour
     {
         private Rigidbody2D rb;                     //刚体
         private BallStuckWatchdog watchdog;         //监察人
@@ -73,12 +73,6 @@ namespace GameLogic.BlockBreaker
 
         void Start()
         {
-            if (subject == null && BlockMgr.Instance != null)
-            {
-                subject = BlockMgr.Instance.GetSubject();
-                subject.Attach(this);
-            }
-
             rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
@@ -123,6 +117,9 @@ namespace GameLogic.BlockBreaker
             }
         }
 
+        /// <summary>
+        /// 移动
+        /// </summary>
         void Move()
         {
             rb.velocity = rb.velocity.normalized * SPEED;
@@ -137,6 +134,9 @@ namespace GameLogic.BlockBreaker
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            PlaySound(collision.gameObject);
+
+            //碰撞Player后销毁自己
             if (collision.gameObject.CompareTag("Player") && deleteTime > deleteMaxTime)
             {
                 Destroy(this.gameObject);
@@ -145,12 +145,57 @@ namespace GameLogic.BlockBreaker
 
         void OnCollisionEnter2D(Collision2D collision)
         {
+            PlaySound(collision.gameObject);
+
+            //碰撞Wall2后调整运动方向为Player
             if (collision.gameObject.CompareTag("Wall2"))
             {
                 ballStatic = BallStatic.EndOfFlight;
                 rb.velocity = Vector2.zero;
                 rb.velocity = Launcher.Instance.transform.position - this.transform.position;
             }
+        }
+
+        void PlaySound(GameObject go)
+        {
+            if(go != null)
+            {
+                BlockBase blockBase = go.GetComponent<BlockBase>();
+                if(blockBase != null)
+                {
+                    switch(blockBase.blockType)
+                    {
+                        case BlockType.AddBall:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100028);
+                            break;
+                        case BlockType.OrdinaryBlock:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100022);
+                            break;
+                        case BlockType.SpecialShapedBlock:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100023);
+                            break;
+                        case BlockType.ElementBlock:
+                            break;
+                        case BlockType.ExtraBall:
+                            break;
+                        case BlockType.Bounce:
+                            break;
+                        case BlockType.KillBall:
+                            break;
+                    }
+
+                }
+                else
+                {
+                    if (!go.CompareTag("Player") && AudioMgr.Instance != null)
+                        AudioMgr.Instance.PlaySound(100022);
+                }
+            }
+
+            
         }
 
         /// <summary>
@@ -181,21 +226,7 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void UnstuckMe()
         {
-            //ballStatic = BallStatic.EndOfFlight;
             rb.velocity = new Vector2(DIRECTION[UnityEngine.Random.Range(0, 2)] * rb.velocity.y, UNSTUCK_BOOST);
-            //ballStatic = BallStatic.EndOfFlight;
-            //rb.velocity = Vector2.zero;
-            //rb.velocity = Launcher.Instance.transform.position - this.transform.position;
-        }
-
-        public void KillBall(bool killedByBorder)
-        {
-            Destroy(this.gameObject);
-        }
-
-        public override void UpdateData()
-        {
-            //watchdog.RemovePossibleStuckBall(this);
         }
     }
 }

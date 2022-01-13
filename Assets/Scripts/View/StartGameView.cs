@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 namespace GameLogic
 {
+    /// <summary>
+    /// 功能：游戏开始界面
+    /// 创建者：长生
+    /// 日期：2021年11月23日11:22:09
+    /// </summary>
+    
     public class StartGameView : MonoBehaviour
     {
 
@@ -20,6 +26,7 @@ namespace GameLogic
         public Slider soundVolume;    //效果音大小
         public Text soundVolumeStr;   //效果音大小数值
 
+        string sceneName;
         private void Start()
         {
             Init();
@@ -36,6 +43,7 @@ namespace GameLogic
                 languages.onValueChanged.RemoveAllListeners();
                 languages.onValueChanged.AddListener((value)=> 
                 {
+                    PlaySound();
                     LanguagesMgr.Instance.SetMultilingual(value);
                 });
             }
@@ -47,6 +55,7 @@ namespace GameLogic
 
             bgmOn.onClick.AddListener(()=> 
             {
+                PlaySound();
                 bgmOn.gameObject.SetActive(false);
                 bgmOff.gameObject.SetActive(true);
                 AudioMgr.Instance.SetPlayMusic(false);
@@ -54,6 +63,7 @@ namespace GameLogic
 
             bgmOff.onClick.AddListener(() => 
             {
+                PlaySound();
                 bgmOn.gameObject.SetActive(true);
                 bgmOff.gameObject.SetActive(false);
                 AudioMgr.Instance.SetPlayMusic(true);
@@ -61,6 +71,7 @@ namespace GameLogic
 
             soundOn.onClick.AddListener(() => 
             {
+                PlaySound();
                 soundOn.gameObject.SetActive(false);
                 soundOff.gameObject.SetActive(true);
                 AudioMgr.Instance.SetPlaySound(false);
@@ -68,6 +79,7 @@ namespace GameLogic
 
             soundOff.onClick.AddListener(() => 
             {
+                PlaySound();
                 soundOn.gameObject.SetActive(true);
                 soundOff.gameObject.SetActive(false);
                 AudioMgr.Instance.SetPlaySound(true);
@@ -124,19 +136,34 @@ namespace GameLogic
             List<int> musicKey = AudioMgr.Instance.GetMusicKeyByType(1);
             AudioMgr.Instance.RandomPlayBGM(musicKey);
         }
+
         /// <summary>
         /// 开始游戏
         /// </summary>
-        public void StartGame()
+        public void StartGame(string name)
         {
             AudioMgr.Instance.StopBGM();
-            AudioMgr.Instance.PlaySound(100014);
+            PlaySound();
+
+            sceneName = name;
+
             Invoke("LoadScene", 0.5f);
         }
 
+        /// <summary>
+        /// 加载场景
+        /// </summary>
         void LoadScene()
         {
-            SceneMgr.Instance.LoadScene("MainScene");
+            SceneMgr.Instance.LoadScene(sceneName);
+        }
+
+        /// <summary>
+        /// 播放按钮音效
+        /// </summary>
+        public void PlaySound()
+        {
+            AudioMgr.Instance.PlaySound(100014);
         }
 
         /// <summary>

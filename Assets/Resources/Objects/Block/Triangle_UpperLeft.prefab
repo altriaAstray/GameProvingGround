@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2461157905099509424}
   - component: {fileID: 2461157905099509425}
   - component: {fileID: 2461157905099509438}
+  - component: {fileID: -4741920419127165135}
   m_Layer: 11
   m_Name: Triangle_UpperLeft
   m_TagString: Block
@@ -92,6 +93,7 @@ MonoBehaviour:
   blockType: 1
   point: 999
   pointText: {fileID: 2461157905655514709}
+  uiShiny: {fileID: -4741920419127165135}
 --- !u!60 &2461157905099509438
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -120,6 +122,32 @@ PolygonCollider2D:
     - - {x: -60, y: 60}
       - {x: -60, y: -60}
       - {x: 60, y: 60}
+--- !u!114 &-4741920419127165135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461157905099509436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19b7e2285c104f6ca47d583f3e5444f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectFactor: 1
+  m_Width: 0.25
+  m_Rotation: 135
+  m_Softness: 1
+  m_Brightness: 1
+  m_Gloss: 1
+  m_EffectArea: 0
+  m_Player:
+    play: 0
+    initialPlayDelay: 0
+    duration: 0.1
+    loop: 0
+    loopDelay: 0
+    updateMode: 0
 --- !u!1 &2461157905655514707
 GameObject:
   m_ObjectHideFlags: 0

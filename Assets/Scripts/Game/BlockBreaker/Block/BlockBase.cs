@@ -15,11 +15,7 @@ namespace GameLogic.BlockBreaker
 
         [SerializeField] public int point;
 
-        public abstract BlockType GetBlockType();
-        public abstract void SetPosition(Vector3 pos);
         public abstract void SetPoint(int value);
-        public abstract void EffectTrigger();
         public abstract void DestroyObj();
-        public abstract void EndGame();
     }
 }

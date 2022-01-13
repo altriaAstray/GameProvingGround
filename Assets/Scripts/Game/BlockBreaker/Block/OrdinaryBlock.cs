@@ -1,13 +1,21 @@
-﻿using System.Collections;
+﻿using Coffee.UIEffects;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GameLogic.BlockBreaker
 {
+    /// <summary>
+    /// 功能：普通块
+    /// 创建者：长生
+    /// 时间：2021年11月20日10:32:26
+    /// </summary>
+    
     public class OrdinaryBlock : BlockBase
     {
         [SerializeField] Text pointText;
+        [SerializeField] UIEffect uiEffect;
 
         private void Start()
         {
@@ -24,32 +32,10 @@ namespace GameLogic.BlockBreaker
             Destroy(this.gameObject);
         }
 
-        public override void EffectTrigger()
-        {
-
-        }
-
-        public override BlockType GetBlockType()
-        {
-            return blockType;
-        }
-
-        public override void SetPosition(Vector3 pos)
-        {
-            transform.position = pos;
-        }
-
-        public override void EndGame()
-        {
-
-        }
-
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                if (AudioMgr.Instance != null)
-                    AudioMgr.Instance.PlaySound(100022);
                 point--;
                 BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 1);
 
@@ -57,22 +43,24 @@ namespace GameLogic.BlockBreaker
                 {
                     DestroyObj();
                 }
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.CompareTag("Ball"))
-            {
-                if (AudioMgr.Instance != null)
-                    AudioMgr.Instance.PlaySound(100022);
-                point --;
-                if(point <= 0)
+                else
                 {
-                    DestroyObj();
+                    PlayEffect();
                 }
             }
         }
+
+        void PlayEffect()
+        {
+            uiEffect.colorFactor = 0.2f;
+            Invoke("OverEffect",0.05f);
+        }
+
+        void OverEffect()
+        {
+            uiEffect.colorFactor = 0.0f;
+        }
+
 
         public override void SetPoint(int value)
         {

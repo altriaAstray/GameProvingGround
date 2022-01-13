@@ -40,10 +40,11 @@ namespace GameLogic.BlockBreaker
 
         void Update()
         {
+            //球存在的情况下不显示瞄准线
             if (ballRoot.childCount <= 0)
             {
                 if(aimLine.gameObject.activeSelf == false)
-                 aimLine.gameObject.SetActive(true);
+                    aimLine.gameObject.SetActive(true);
             }
             else
             {
@@ -51,7 +52,8 @@ namespace GameLogic.BlockBreaker
                     aimLine.gameObject.SetActive(false);
             }
 
-            if(mouse != null && ballRoot.childCount <= 0)
+            //瞄准线
+            if (mouse != null && ballRoot.childCount <= 0)
             {
                 if (mouse.leftButton.wasPressedThisFrame)
                 {
@@ -61,6 +63,7 @@ namespace GameLogic.BlockBreaker
                 }
             }
 
+            //球存在的情况下不能移动
             if (keyboard != null && ballRoot.childCount <= 0)
             {
                 if (keyboard.wKey.isPressed)
@@ -85,7 +88,7 @@ namespace GameLogic.BlockBreaker
                     
                     if(BlockMgr.Instance.GetNumberOfAmmunition() > 0)
                     {
-                        CreateSpawner();
+                        CreateBall();
                         BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunition() - 1);
                     }
                     else if(BlockMgr.Instance.GetNumberOfAmmunition() == 0 && ballRoot.childCount <= 0)
@@ -98,8 +101,6 @@ namespace GameLogic.BlockBreaker
             }
         }
 
-
-
         /// <summary>
         /// 限制移动
         /// </summary>
@@ -111,7 +112,10 @@ namespace GameLogic.BlockBreaker
                                                trNeedLimit.position.z);
         }
 
-        private void CreateSpawner()
+        /// <summary>
+        /// 创建球
+        /// </summary>
+        private void CreateBall()
         {
             GameObject go = Instantiate(ballObj, transform.position, Quaternion.identity);
             go.SetActive(true);
