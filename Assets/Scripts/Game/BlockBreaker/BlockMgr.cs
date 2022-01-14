@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace GameLogic.BlockBreaker
@@ -19,6 +20,8 @@ namespace GameLogic.BlockBreaker
         public Vector2 screenSize;                                      //屏幕大小
         public Transform blockRoot;                                     //方块根节点
         public Transform gameOverWall;                                  //用于结束游戏判断
+        public GameObject exitMenu;                                     //退出菜单
+        public GameObject gameoverMenu;                                 //游戏结束菜单
         RectTransform rectTransform;                                    //用于查看分辨率
 
         int stage;                  //阶段
@@ -35,6 +38,10 @@ namespace GameLogic.BlockBreaker
         [SerializeField] int numberOfAmmunitionMax = 1;                 //弹珠总数量
         [SerializeField] int numberOfAmmunition = -1;                   //弹珠数量
 
+        Keyboard keyboard = Keyboard.current;//键盘
+
+        GameStatic gameStatic;
+
         public void Start()
         {
             if (AudioMgr.Instance != null)
@@ -42,6 +49,8 @@ namespace GameLogic.BlockBreaker
                 List<int> musicKey = AudioMgr.Instance.GetMusicKeyByType(2);
                 AudioMgr.Instance.RandomPlayBGM(musicKey);
             }
+
+            gameStatic = GameStatic.Play;
 
             rectTransform = canvas.transform as RectTransform;
             screenSize = rectTransform.rect.size;
@@ -178,10 +187,45 @@ namespace GameLogic.BlockBreaker
             }
         }
 
+        public void Update()
+        {
+            //键盘检测
+            if (keyboard != null)
+            {
+                if (keyboard.escapeKey.wasPressedThisFrame)
+                {
+                    if (exitMenu != null)
+                    {
+                        if (exitMenu.activeSelf == true)
+                        {
+                            exitMenu.SetActive(false);
+                            gameStatic = GameStatic.Play;
+                        }
+                        else
+                        {
+                            exitMenu.SetActive(true);
+                            gameStatic = GameStatic.StopPlay;
+                        }
+                    }
+                }
+            }
+        }
+
         public void FixedUpdate()
         {
             totalScoreText.text = totalScore.ToString();
             numberOfAmmunitionMaxText.text = numberOfAmmunitionMax.ToString();
+        }
+
+        public GameStatic GetGameStatic()
+        {
+            return gameStatic;
+        }
+
+        public void CloseExitMenu()
+        {
+            exitMenu.SetActive(false);
+            gameStatic = GameStatic.Play;
         }
 
         /// <summary>

@@ -22,7 +22,6 @@ namespace GameLogic.BlockBreaker
         Mouse mouse = Mouse.current;//鼠标
         Keyboard keyboard = Keyboard.current;//键盘
 
-
         Vector2 worldPosLeftBottom;
         Vector2 worldPosTopRight;
 
@@ -35,7 +34,6 @@ namespace GameLogic.BlockBreaker
         {
             worldPosLeftBottom = camera.ViewportToWorldPoint(Vector2.zero);
             worldPosTopRight = camera.ViewportToWorldPoint(Vector2.one);
-
         }
 
         void Update()
@@ -52,32 +50,41 @@ namespace GameLogic.BlockBreaker
                     aimLine.gameObject.SetActive(false);
             }
 
-            //瞄准线
-            if (mouse != null && ballRoot.childCount <= 0)
+            if(BlockMgr.Instance.GetGameStatic() == GameStatic.Play)
             {
-                if (mouse.leftButton.wasPressedThisFrame)
+                //瞄准线
+                if (mouse != null && ballRoot.childCount <= 0)
                 {
-                    spawnVelocity = aimLine.GetLineRenderer().GetPosition(1) - aimLine.GetLineRenderer().GetPosition(0);
-                    createEnable = true;
-                    BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunitionMax());
+                    if (mouse.leftButton.wasPressedThisFrame)
+                    {
+                        spawnVelocity = aimLine.GetLineRenderer().GetPosition(1) - aimLine.GetLineRenderer().GetPosition(0);
+                        createEnable = true;
+                        BlockMgr.Instance.SetNumberOfAmmunition(BlockMgr.Instance.GetNumberOfAmmunitionMax());
+                    }
+                }
+
+                //球存在的情况下不能移动
+                if (keyboard != null && ballRoot.childCount <= 0)
+                {
+                    if (keyboard.wKey.isPressed)
+                    {
+                        transform.Translate(0, moveSpeed * Time.deltaTime, 0);
+                    }
+
+                    if (keyboard.sKey.isPressed)
+                    {
+                        transform.Translate(0, -moveSpeed * Time.deltaTime, 0);
+                    }
+
+                    LimitPosition(transform);
                 }
             }
-
-            //球存在的情况下不能移动
-            if (keyboard != null && ballRoot.childCount <= 0)
+            else
             {
-                if (keyboard.wKey.isPressed)
-                {
-                    transform.Translate(0, moveSpeed * Time.deltaTime, 0);
-                }
-
-                if (keyboard.sKey.isPressed)
-                {
-                    transform.Translate(0, -moveSpeed * Time.deltaTime, 0);
-                }
-
-                LimitPosition(transform);
+                aimLine.gameObject.SetActive(false);
             }
+
+            
 
             if(createEnable)
             {

@@ -70,7 +70,13 @@ namespace GameLogic
         CustomTypeList  //自定义类型数组
     }
 
-    enum BallStatic
+    public enum GameStatic
+    {
+        Play,
+        StopPlay,
+    }
+
+    public enum BallStatic
     {
         Launch,
         InFlight,
