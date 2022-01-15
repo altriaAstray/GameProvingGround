@@ -82,20 +82,48 @@ namespace GameLogic
         InFlight,
         EndOfFlight,
     }
-
+    /// <summary>
+    /// 块的类型
+    /// </summary>
     public enum BlockType
     {
         OrdinaryBlock,       //普通块
-        //OrdinaryTriangleBlock_UpperLeft,     //普通三角形块 左上
-        //OrdinaryTriangleBlock_LowerLeft,     //普通三角形块 左下
-        //OrdinaryTriangleBlock_UpperRight,    //普通三角形块 右上
-        //OrdinaryTriangleBlock_LowerRight,    //普通三角形块 右下
         SpecialShapedBlock,  //异形块
         ElementBlock,        //元素块
-        Bounce,              //反弹
+        FunctionBlock,       //功能块
         ExtraBall,           //分出额外的球
         KillBall,            //删除球
         AddBall,             //添加球上限
+    }
+
+    /// <summary>
+    /// 块的属性
+    /// </summary>
+    public enum OrdinaryBlockAttributes
+    {
+        SoilBlock,           //土块
+        WoodBlock,           //木块
+        BrickBlock,          //砖块
+        IronBlock,           //铁块
+    }
+    /// <summary>
+    /// 元素块属性
+    /// </summary>
+    public enum ElementBlockAttributes
+    {
+        SoilBlock,           //土块
+        BrickBlock,          //砖块
+        IronBlock,           //铁块
+    }
+    /// <summary>
+    /// 异形快的类型
+    /// </summary>
+    public enum SpecialShapedType
+    {
+        UpperLeft,     //三角形块 左上
+        LowerLeft,     //三角形块 左下
+        UpperRight,    //三角形块 右上
+        LowerRight,    //三角形块 右下
     }
 }
 

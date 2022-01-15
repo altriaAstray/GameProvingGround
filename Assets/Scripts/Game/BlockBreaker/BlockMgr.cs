@@ -16,6 +16,7 @@ namespace GameLogic.BlockBreaker
     {
         public Canvas canvas;
         public Text totalScoreText;                                     //积分文本显示
+        public Text finalScoreText;                                     //积分文本显示
         public Text numberOfAmmunitionMaxText;                          //弹珠总数显示
         public Vector2 screenSize;                                      //屏幕大小
         public Transform blockRoot;                                     //方块根节点
@@ -59,8 +60,8 @@ namespace GameLogic.BlockBreaker
             blockCount_Y = (int)Math.Round(screenSize.y / blockSize);
 
             float y = ((float)screenSize.y / (float)blockSize - (float)blockCount_Y) * 120 / 2;
-
-            stratPos = new Vector2((screenSize.x / 2) - 240 - 60, (screenSize.y / 2) - 60 - y);
+            //设置起始位置
+            stratPos = new Vector2((screenSize.x / 2) - 240 - 60, (screenSize.y / 2) - 60 - y - 120);
 
             CreateBlock();
         }
@@ -100,7 +101,7 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void CreateBlock()
         {            
-            for(int i = 0; i < blockCount_Y; i++)
+            for(int i = 0; i < blockCount_Y - 2; i++)
             {
                 if(UnityEngine.Random.Range(0, 2) == 0)
                 {
@@ -111,16 +112,20 @@ namespace GameLogic.BlockBreaker
                     gameObject.GetComponent<RectTransform>().localPosition = pos;
                     gameObject.GetComponent<RectTransform>().localScale = Vector3.one;
 
-                    int value = UnityEngine.Random.Range(0, 10);
-                    if (value < 4)
+                    int value = UnityEngine.Random.Range(0, 1000);
+                    if (value < 400)
                     {
                         value = numberOfAmmunitionMax + UnityEngine.Random.Range(3, 5);
                     }
-                    else if (value < 7)
+                    else if (value < 800)
                     {
                         value = numberOfAmmunitionMax + UnityEngine.Random.Range(5, 10);
                     }
-                    else if (value <= 10)
+                    else if (value < 900)
+                    {
+                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(10, 20);
+                    }
+                    else if (value <= 1000)
                     {
                         value = numberOfAmmunitionMax * 2;
                     }
@@ -140,7 +145,7 @@ namespace GameLogic.BlockBreaker
 
             int value = UnityEngine.Random.Range(0, 1000);
 
-            if (value < 500)
+            if (value < 450)
             {
                 result = 0;
             }
@@ -150,12 +155,12 @@ namespace GameLogic.BlockBreaker
             }
             else if (value < 950)
             {
-                result = UnityEngine.Random.Range(2, 6);
+                result = 2;
             }
 
             else if (value <= 1000)
             {
-                result = 6;
+                result = 3;
             }
 
             return result;
@@ -213,8 +218,8 @@ namespace GameLogic.BlockBreaker
 
         public void FixedUpdate()
         {
-            totalScoreText.text = totalScore.ToString();
-            numberOfAmmunitionMaxText.text = numberOfAmmunitionMax.ToString();
+            totalScoreText.text = "x " + totalScore.ToString();
+            numberOfAmmunitionMaxText.text = "x " + numberOfAmmunitionMax.ToString();
         }
 
         public GameStatic GetGameStatic()
@@ -222,9 +227,16 @@ namespace GameLogic.BlockBreaker
             return gameStatic;
         }
 
+        public void OpenExitMenu()
+        {
+            exitMenu.SetActive(true);
+            gameStatic = GameStatic.StopPlay;
+        }
+
         public void CloseExitMenu()
         {
             exitMenu.SetActive(false);
+            gameoverMenu.SetActive(false);
             gameStatic = GameStatic.Play;
         }
 
@@ -233,6 +245,11 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void GameOver()
         {
+            gameStatic = GameStatic.StopPlay;
+            
+            gameoverMenu.SetActive(true);
+            finalScoreText.text = totalScore.ToString();
+
             numberOfAmmunitionMax = 1;
             totalScore = 0;
             Tools.ClearChild(blockRoot);

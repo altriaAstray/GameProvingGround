@@ -15,6 +15,7 @@ namespace GameLogic.BlockBreaker
         [SerializeField] Camera camera;
         [SerializeField] GameObject ballObj;
         [SerializeField] Transform ballRoot;
+        [SerializeField] Transform launcherPos;
         [SerializeField] AimLine aimLine;
 
         [SerializeField] float moveSpeed = 5f;
@@ -86,7 +87,7 @@ namespace GameLogic.BlockBreaker
 
             
 
-            if(createEnable)
+            if(createEnable && BlockMgr.Instance.GetGameStatic() == GameStatic.Play)
             {
                 time += Time.deltaTime;
                 if(time > timeMax)
@@ -124,7 +125,7 @@ namespace GameLogic.BlockBreaker
         public void LimitPosition(Transform trNeedLimit)
         {
             trNeedLimit.position = new Vector3(Mathf.Clamp(trNeedLimit.position.x, worldPosLeftBottom.x, worldPosTopRight.x),
-                                               Mathf.Clamp(trNeedLimit.position.y, worldPosLeftBottom.y + 0.3F, worldPosTopRight.y - 0.3F),
+                                               Mathf.Clamp(trNeedLimit.position.y, worldPosLeftBottom.y + 1.5F, worldPosTopRight.y - 1.5F),
                                                trNeedLimit.position.z);
         }
 

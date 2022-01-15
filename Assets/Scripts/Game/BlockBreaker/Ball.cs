@@ -130,6 +130,13 @@ namespace GameLogic.BlockBreaker
                 float signYVel = Mathf.Sign(rb.velocity.y);
                 rb.velocity = new Vector2(signXVel * SPEED - MIN_SPEED, signYVel * MIN_SPEED);
             }
+
+            //if (rb.velocity.x < MIN_SPEED && rb.velocity.x > -MIN_SPEED)
+            //{
+            //    float signXVel = Mathf.Sign(rb.velocity.x);
+            //    float signYVel = Mathf.Sign(rb.velocity.y);
+            //    rb.velocity = new Vector2(signXVel * MIN_SPEED, signYVel * SPEED - MIN_SPEED);
+            //}
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -153,6 +160,11 @@ namespace GameLogic.BlockBreaker
                 ballStatic = BallStatic.EndOfFlight;
                 rb.velocity = Vector2.zero;
                 rb.velocity = Launcher.Instance.transform.position - this.transform.position;
+            }
+
+            if(collision.gameObject.CompareTag("Block"))
+            {
+                watchdog.RemovePossibleStuckBall(this);
             }
         }
 
@@ -180,8 +192,6 @@ namespace GameLogic.BlockBreaker
                         case BlockType.ElementBlock:
                             break;
                         case BlockType.ExtraBall:
-                            break;
-                        case BlockType.Bounce:
                             break;
                         case BlockType.KillBall:
                             break;

@@ -89,9 +89,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51c977ab66e79c41bd6a1cc9f64b7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 2931293844916825933}
   blockType: 4
   isDestroy: 0
   point: 99
+  pointText: {fileID: 0}
   objectToSpawn: {fileID: 2443295981237335993, guid: 4b9317596b23c15439c4d278cadefefc,
     type: 3}
 --- !u!58 &8323993486261591285

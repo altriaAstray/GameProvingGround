@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameLogic.BlockBreaker
 {
@@ -11,10 +12,11 @@ namespace GameLogic.BlockBreaker
     /// </summary>
     public abstract class BlockBase : MonoBehaviour
     {
+        public Image icon;
         public BlockType blockType;
         public bool isDestroy;
-
-        [SerializeField] public int point;
+        public int point;
+        public Text pointText;
 
         public abstract void SetPoint(int value);
         public abstract void DestroyObj();

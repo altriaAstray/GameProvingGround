@@ -20,6 +20,11 @@ namespace GameLogic
         public Slider bgmVolume;      //背景音大小
         public Text bgmVolumeStr;     //背景音大小数值
 
+        public Button fullscreenOn;   //全屏开
+        public Button fullscreenOff;  //全屏关
+        public Dropdown resolution;   //分辨率
+        int width;
+        int height;
 
         public Button soundOn;        //效果音开
         public Button soundOff;       //效果音关
@@ -53,6 +58,10 @@ namespace GameLogic
             soundOn.onClick.RemoveAllListeners();
             soundOff.onClick.RemoveAllListeners();
 
+            fullscreenOn.onClick.RemoveAllListeners();
+            fullscreenOff.onClick.RemoveAllListeners();
+            resolution.onValueChanged.RemoveAllListeners();
+
             bgmOn.onClick.AddListener(()=> 
             {
                 PlaySound();
@@ -85,6 +94,74 @@ namespace GameLogic
                 AudioMgr.Instance.SetPlaySound(true);
             });
 
+            //---------------------------------------------------
+            fullscreenOn.onClick.AddListener(() =>
+            {
+                PlaySound();
+                width = (int)GetResolution().x;
+                height = (int)GetResolution().y;
+
+                fullscreenOn.gameObject.SetActive(false);
+                fullscreenOff.gameObject.SetActive(true);
+
+                DataMgr.Instance.GetConfig()[100201].Value_3 = true;
+                DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100201]);
+
+                Screen.SetResolution(/*屏幕宽度*/ width,/*屏幕高度*/ height, /*是否全屏显示*/true);
+            });
+
+            fullscreenOff.onClick.AddListener(() =>
+            {
+                PlaySound();
+                width = (int)GetResolution().x;
+                height = (int)GetResolution().y;
+
+                fullscreenOn.gameObject.SetActive(true);
+                fullscreenOff.gameObject.SetActive(false);
+
+                DataMgr.Instance.GetConfig()[100201].Value_3 = false;
+                DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100201]);
+
+                Screen.SetResolution(/*屏幕宽度*/ width,/*屏幕高度*/ height, /*是否全屏显示*/false);
+            });
+
+            resolution.value = DataMgr.Instance.GetConfig()[100202].Value_1;
+            resolution.onValueChanged.AddListener((value) => 
+            {
+                width = (int)GetResolution().x;
+                height = (int)GetResolution().y;
+
+                DataMgr.Instance.GetConfig()[100202].Value_1 = value;
+                DataMgr.Instance.SetGameConfig(DataMgr.Instance.GetConfig()[100202]);
+
+                Screen.SetResolution(/*屏幕宽度*/ width,/*屏幕高度*/ height, /*是否全屏显示*/Screen.fullScreen);
+            });
+
+            if (Screen.fullScreen)
+            {
+                fullscreenOn.gameObject.SetActive(false);
+                fullscreenOff.gameObject.SetActive(true);
+            }
+            else
+            {
+                fullscreenOn.gameObject.SetActive(true);
+                fullscreenOff.gameObject.SetActive(false);
+            }
+
+            bool fullScreen = false;
+            if (DataMgr.Instance.GetConfig()[100201].Value_3 == true)
+            {
+                fullScreen = true;
+            }
+            else
+            {
+                fullScreen = false;
+            }
+
+            width = (int)GetResolution().x;
+            height = (int)GetResolution().y;
+            Screen.SetResolution(/*屏幕宽度*/ width,/*屏幕高度*/ height, /*是否全屏显示*/fullScreen);
+            //---------------------------------------------------
 
             if (DataMgr.Instance.GetConfig()[100001].Value_3 == true)
             {
@@ -125,6 +202,7 @@ namespace GameLogic
                 soundVolumeStr.text = value.ToString("f1");
                 AudioMgr.Instance.SetVolumeSound(value);
             });
+
             Invoke("Play", 1f);
         }
 
@@ -164,6 +242,25 @@ namespace GameLogic
         public void PlaySound()
         {
             AudioMgr.Instance.PlaySound(100014);
+        }
+
+        public Vector2 GetResolution()
+        {
+            Vector2 vector2 = new Vector2(1270, 720);
+            switch (resolution.value)
+            {
+                case 0:
+                    vector2 = new Vector2(1920, 1080);
+                    break;
+                case 1:
+                    vector2 = new Vector2(1600, 900);
+                    break;
+                case 2:
+                    vector2 = new Vector2(1270, 720);
+                    break;
+            }
+
+            return vector2;
         }
 
         /// <summary>

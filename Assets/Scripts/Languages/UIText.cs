@@ -31,13 +31,19 @@ namespace GameLogic
         public void GetTextLanguage()
         {
             if (LanguagesMgr.Instance == null)
+            {
                 return;
+            }
 
             string value = LanguagesMgr.Instance.GetTextByIndex(key);
 
             if (!string.IsNullOrEmpty(value))
             {
                 GetComponent<Text>().text = value;
+            }
+            else
+            {
+                //Debug.Log("GetTextLanguage() "+ key + "是空的");
             }
         }
 

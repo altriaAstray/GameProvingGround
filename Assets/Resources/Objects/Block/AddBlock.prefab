@@ -89,8 +89,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 171fdc117391dd24dbea8ac2f20af8b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 2931293844916825933}
   blockType: 6
+  isDestroy: 0
   point: 999
+  pointText: {fileID: 0}
 --- !u!58 &8323993486261591285
 CircleCollider2D:
   m_ObjectHideFlags: 0

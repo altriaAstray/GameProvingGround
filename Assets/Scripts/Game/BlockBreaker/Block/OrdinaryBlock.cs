@@ -14,13 +14,53 @@ namespace GameLogic.BlockBreaker
     
     public class OrdinaryBlock : BlockBase
     {
-        [SerializeField] Text pointText;
         [SerializeField] UIEffect uiEffect;
+        [SerializeField] OrdinaryBlockAttributes ordinaryBlockAttributes;
 
         private void Start()
         {
             isDestroy = false;
             blockType = BlockType.OrdinaryBlock;
+
+            Init();
+        }
+
+        public void Init()
+        {
+            int value = Random.Range(0, 1000);
+
+            if(value < 400)
+            {
+                ordinaryBlockAttributes = OrdinaryBlockAttributes.SoilBlock;
+                if(ResourcesMgr.Instance != null)
+                {
+                    icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/SoilBlock");
+                }
+            }
+            else if(value < 800)
+            {
+                ordinaryBlockAttributes = OrdinaryBlockAttributes.WoodBlock;
+                if (ResourcesMgr.Instance != null)
+                {
+                    icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/WoodBlock");
+                }
+            }
+            else if (value < 900)
+            {
+                ordinaryBlockAttributes = OrdinaryBlockAttributes.BrickBlock;
+                if (ResourcesMgr.Instance != null)
+                {
+                    icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/BrickBlock");
+                }
+            }
+            else if (value <= 1000)
+            {
+                ordinaryBlockAttributes = OrdinaryBlockAttributes.IronBlock;
+                if (ResourcesMgr.Instance != null)
+                {
+                    icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/IronBlock");
+                }
+            }
         }
 
         public void Update()

@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70233341eb0ee0c4a98f3c9fc7b7eb79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b144dca7eebae604da4072775a55daa5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -90,10 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61985f77ced3b11439e74d98d11e9b52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 5642271933561018798}
   blockType: 0
+  isDestroy: 0
   point: 999
   pointText: {fileID: 5642271933637673475}
   uiEffect: {fileID: 4833205577105852936}
+  ordinaryBlockAttributes: 0
 --- !u!61 &5642271933561018768
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -197,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
