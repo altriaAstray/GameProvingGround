@@ -15,39 +15,36 @@ namespace GameLogic.BlockBreaker
     public class OrdinaryBlock : BlockBase
     {
         [SerializeField] UIEffect uiEffect;
-        [SerializeField] OrdinaryBlockAttributes ordinaryBlockAttributes;
 
         private void Start()
         {
             isDestroy = false;
             blockType = BlockType.OrdinaryBlock;
-
-            Init();
         }
 
-        public void Init()
+        public override void Init()
         {
             int value = Random.Range(0, 1000);
 
-            if(value < 400)
+            if(value < 300)
             {
-                ordinaryBlockAttributes = OrdinaryBlockAttributes.SoilBlock;
+                blockAttributes = BlockAttributes.SoilBlock;
                 if(ResourcesMgr.Instance != null)
                 {
                     icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/SoilBlock");
                 }
             }
-            else if(value < 800)
+            else if(value < 600)
             {
-                ordinaryBlockAttributes = OrdinaryBlockAttributes.WoodBlock;
+                blockAttributes = BlockAttributes.WoodBlock;
                 if (ResourcesMgr.Instance != null)
                 {
                     icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/WoodBlock");
                 }
             }
-            else if (value < 900)
+            else if (value < 880)
             {
-                ordinaryBlockAttributes = OrdinaryBlockAttributes.BrickBlock;
+                blockAttributes = BlockAttributes.BrickBlock;
                 if (ResourcesMgr.Instance != null)
                 {
                     icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/BrickBlock");
@@ -55,7 +52,7 @@ namespace GameLogic.BlockBreaker
             }
             else if (value <= 1000)
             {
-                ordinaryBlockAttributes = OrdinaryBlockAttributes.IronBlock;
+                blockAttributes = BlockAttributes.IronBlock;
                 if (ResourcesMgr.Instance != null)
                 {
                     icon.sprite = ResourcesMgr.Instance.LoadAsset<Sprite>("Images/Block/IronBlock");
@@ -77,8 +74,8 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                point--;
-                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 1);
+                SetPoint(point - BlockMgr.Instance.GetAttack());
+                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + BlockMgr.Instance.GetAttack());
 
                 if (point <= 0)
                 {

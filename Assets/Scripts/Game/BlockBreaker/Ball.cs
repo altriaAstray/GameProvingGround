@@ -195,6 +195,10 @@ namespace GameLogic.BlockBreaker
                             break;
                         case BlockType.KillBall:
                             break;
+                        case BlockType.AttackBall:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100030);
+                            break;
                     }
 
                 }

@@ -10,15 +10,14 @@ namespace GameLogic.BlockBreaker
     /// 创建者：长生
     /// 时间：2021年11月20日10:32:26
     /// </summary>
-    public class AddBlock : BlockBase
+    public class AttackBlock : BlockBase
     {
 
         private void Start()
         {
             isDestroy = false;
-            blockType = BlockType.AddBall;
+            blockType = BlockType.AttackBall;
             point = 1;
-            blockAttributes = BlockAttributes.None;
         }
 
         public override void Init()
@@ -35,13 +34,9 @@ namespace GameLogic.BlockBreaker
         {
             if (collision.gameObject.CompareTag("Ball"))
             {
-                point--;
-                BlockMgr.Instance.AddNumberOfAmmunition();
-                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 2);
-                if (point <= 0)
-                {
-                    DestroyObj();
-                }
+                BlockMgr.Instance.SetAttack(BlockMgr.Instance.GetAttack() + 1);
+                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 100);
+                DestroyObj();
             }
         }
 

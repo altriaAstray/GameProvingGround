@@ -26,7 +26,7 @@ namespace GameLogic
             foreach (Languages tempData in tempConfigs)
             {
                 languages.Add(tempData.Index, tempData);
-                Debug.Log(tempData.Index +"|"+ tempData.EN+ "|"+ tempData.ZH);
+                //Debug.Log(tempData.Index +"|"+ tempData.EN+ "|"+ tempData.ZH);
             }
 
             SetMultilingual(DataMgr.Instance.GetConfig()[100200].Value_1, true);

@@ -94,27 +94,22 @@ namespace GameLogic
         ExtraBall,           //分出额外的球
         KillBall,            //删除球
         AddBall,             //添加球上限
+        AttackBall,          //添加球攻击力
     }
 
     /// <summary>
     /// 块的属性
     /// </summary>
-    public enum OrdinaryBlockAttributes
+    public enum BlockAttributes
     {
+        None,                //无
         SoilBlock,           //土块
         WoodBlock,           //木块
         BrickBlock,          //砖块
         IronBlock,           //铁块
+        GrassBlock,          //玻璃
     }
-    /// <summary>
-    /// 元素块属性
-    /// </summary>
-    public enum ElementBlockAttributes
-    {
-        SoilBlock,           //土块
-        BrickBlock,          //砖块
-        IronBlock,           //铁块
-    }
+
     /// <summary>
     /// 异形快的类型
     /// </summary>

@@ -23,13 +23,13 @@ namespace GameLogic.BlockBreaker
         {
             isDestroy = false;
             blockType = BlockType.SpecialShapedBlock;
-            Init();
+            blockAttributes = BlockAttributes.None;
         }
 
         /// <summary>
         /// 初始化
         /// </summary>
-        public void Init()
+        public override void Init()
         {
             Vector2[] points = new Vector2[3];
             int value = Random.Range(0, 1000);
@@ -95,8 +95,8 @@ namespace GameLogic.BlockBreaker
             if (collision.gameObject.CompareTag("Ball"))
             {
                 uiShiny.Play();
-                point--;
-                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + 1);
+                SetPoint(point - BlockMgr.Instance.GetAttack());
+                BlockMgr.Instance.SetTotalScore(BlockMgr.Instance.GetTotalScore() + BlockMgr.Instance.GetAttack());
                 if (point <= 0)
                 {
                     DestroyObj();
@@ -104,6 +104,7 @@ namespace GameLogic.BlockBreaker
             }
         }
 
+        //设置点数
         public override void SetPoint(int value)
         {
             point = value;

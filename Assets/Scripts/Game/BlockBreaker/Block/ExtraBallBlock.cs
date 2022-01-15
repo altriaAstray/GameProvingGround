@@ -22,6 +22,11 @@ namespace GameLogic.BlockBreaker
             point = 1;
         }
 
+        public override void Init()
+        {
+
+        }
+
         public override void DestroyObj()
         {
             Destroy(this.gameObject);

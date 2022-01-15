@@ -272,16 +272,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 77dc547229441ae469e70c3194ef6fd7, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 90
+    m_BestFit: 1
+    m_MinSize: 20
+    m_MaxSize: 30
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 99999999999
 --- !u!1 &3177811548951264952
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,16 +350,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 77dc547229441ae469e70c3194ef6fd7, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 90
+    m_BestFit: 1
+    m_MinSize: 20
+    m_MaxSize: 30
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 99999999999
 --- !u!1 &3326301479907729620
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,16 +530,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 77dc547229441ae469e70c3194ef6fd7, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 90
+    m_BestFit: 1
+    m_MinSize: 20
+    m_MaxSize: 30
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 99999999999
 --- !u!1 &5522080348396895628
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 5522080348396895632}
   blockType: 1
+  blockAttributes: 5
   isDestroy: 0
   point: 999
   pointText: {fileID: 0}
@@ -843,13 +844,13 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 77dc547229441ae469e70c3194ef6fd7, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 90
+    m_BestFit: 1
+    m_MinSize: 20
+    m_MaxSize: 30
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 99999999999

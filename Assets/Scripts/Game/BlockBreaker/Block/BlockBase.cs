@@ -14,10 +14,11 @@ namespace GameLogic.BlockBreaker
     {
         public Image icon;
         public BlockType blockType;
+        public BlockAttributes blockAttributes;
         public bool isDestroy;
         public int point;
         public Text pointText;
-
+        public abstract void Init();
         public abstract void SetPoint(int value);
         public abstract void DestroyObj();
     }
