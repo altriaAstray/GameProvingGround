@@ -23,7 +23,7 @@ namespace GameLogic.BlockBreaker
         {
             isDestroy = false;
             blockType = BlockType.SpecialShapedBlock;
-            blockAttributes = BlockAttributes.None;
+            blockAttributes = BlockAttributes.GrassBlock;
         }
 
         /// <summary>

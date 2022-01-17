@@ -175,27 +175,33 @@ namespace GameLogic.BlockBreaker
                 BlockBase blockBase = go.GetComponent<BlockBase>();
                 if(blockBase != null)
                 {
-                    switch(blockBase.blockType)
+                    switch (blockBase.blockAttributes)
                     {
-                        case BlockType.AddBall:
+                        case BlockAttributes.SoilBlock:
                             if (AudioMgr.Instance != null)
-                                AudioMgr.Instance.PlaySound(100028);
+                                AudioMgr.Instance.PlaySound(100024);
                             break;
-                        case BlockType.OrdinaryBlock:
+                        case BlockAttributes.WoodBlock:
                             if (AudioMgr.Instance != null)
-                                AudioMgr.Instance.PlaySound(100022);
+                                AudioMgr.Instance.PlaySound(100026);
                             break;
-                        case BlockType.SpecialShapedBlock:
+                        case BlockAttributes.BrickBlock:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100024);
+                            break;
+                        case BlockAttributes.IronBlock:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100025);
+                            break;
+                        case BlockAttributes.GrassBlock:
                             if (AudioMgr.Instance != null)
                                 AudioMgr.Instance.PlaySound(100023);
                             break;
-                        case BlockType.ElementBlock:
+                        case BlockAttributes.Add:
+                            if (AudioMgr.Instance != null)
+                                AudioMgr.Instance.PlaySound(100028);
                             break;
-                        case BlockType.ExtraBall:
-                            break;
-                        case BlockType.KillBall:
-                            break;
-                        case BlockType.AttackBall:
+                        case BlockAttributes.Attack:
                             if (AudioMgr.Instance != null)
                                 AudioMgr.Instance.PlaySound(100030);
                             break;
@@ -205,7 +211,7 @@ namespace GameLogic.BlockBreaker
                 else
                 {
                     if (!go.CompareTag("Player") && AudioMgr.Instance != null)
-                        AudioMgr.Instance.PlaySound(100022);
+                        AudioMgr.Instance.PlaySound(100032);
                 }
             }
 

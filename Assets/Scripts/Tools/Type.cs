@@ -108,6 +108,8 @@ namespace GameLogic
         BrickBlock,          //砖块
         IronBlock,           //铁块
         GrassBlock,          //玻璃
+        Add,                 //数量增加
+        Attack,              //攻击力提升
     }
 
     /// <summary>

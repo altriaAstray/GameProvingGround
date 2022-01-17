@@ -91,8 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 2931293844916825933}
   blockType: 6
+  blockAttributes: 6
   isDestroy: 0
   point: 999
+  row: 0
   pointText: {fileID: 0}
 --- !u!58 &8323993486261591285
 CircleCollider2D:

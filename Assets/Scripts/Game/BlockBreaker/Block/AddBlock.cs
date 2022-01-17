@@ -18,7 +18,7 @@ namespace GameLogic.BlockBreaker
             isDestroy = false;
             blockType = BlockType.AddBall;
             point = 1;
-            blockAttributes = BlockAttributes.None;
+            blockAttributes = BlockAttributes.Add;
         }
 
         public override void Init()

@@ -17,6 +17,7 @@ namespace GameLogic.BlockBreaker
         {
             isDestroy = false;
             blockType = BlockType.AttackBall;
+            blockAttributes = BlockAttributes.Attack;
             point = 1;
         }
 
