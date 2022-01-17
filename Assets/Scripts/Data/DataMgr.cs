@@ -18,6 +18,7 @@ namespace GameLogic
 
         // 游戏配置表
         Dictionary<int, GameConfig> configs = new Dictionary<int, GameConfig>();
+        Dictionary<int, Save> save = new Dictionary<int, Save>();
 
         void Awake()
         {
@@ -29,6 +30,12 @@ namespace GameLogic
             foreach (GameConfig tempData in tempConfigs)
             {
                 configs.Add(tempData.Index, tempData);
+            }
+            
+            List<Save> tempSave = GetSave();
+            foreach (Save tempData in tempSave)
+            {
+                save.Add(tempData.Index, tempData);
             }
         }
 
@@ -47,6 +54,14 @@ namespace GameLogic
             return configs;
         }
 
+        /// <summary>
+        /// 获取游戏保存表数据（已从数据库读取）
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, Save> GetSaveData()
+        {
+            return save;
+        }
         //-------------------------------------
         /// <summary>
         /// 获取音频配置表数据（从数据库读取）
@@ -86,7 +101,24 @@ namespace GameLogic
             return configs.ToList();
         }
         //-------------------------------------
-
+        /// <summary>
+        /// 获取游戏保存表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
+        public List<Save> GetSave()
+        {
+            IEnumerable<Save> configs = sqlService.GetTable<Save>();
+            return configs.ToList();
+        }
+        /// <summary>
+        /// 设置游戏保存表数据（从数据库读取）
+        /// </summary>
+        /// <returns></returns>
+        public void SetSave(Save config)
+        {
+            sqlService.Update<Save>(config);
+        }
+        //-------------------------------------
 
     }
 }

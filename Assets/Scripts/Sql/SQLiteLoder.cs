@@ -69,8 +69,8 @@ namespace GameLogic.SQL
             //{
             //    Debug.Log("Final PATH: " + dbPath);
             //}
-            Debug.Log("Final PATH: " + dbPath);
-            Debug.Log("Final PATH: " + _connection.DatabasePath);
+            //Debug.Log("Final PATH: " + dbPath);
+            //Debug.Log("Final PATH: " + _connection.DatabasePath);
         }
 
         /// <summary>

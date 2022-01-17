@@ -18,6 +18,7 @@ namespace GameLogic.BlockBreaker
         public Text totalScoreText;                                     //积分文本显示
         public Text finalScoreText;                                     //积分文本显示
         public Text numberOfAmmunitionMaxText;                          //弹珠总数显示
+        public Text highestInHistoryText;                               //历史最高分数显示
         public Text attackText;                                         //弹珠总数显示
         public Vector2 screenSize;                                      //屏幕大小
         public Transform blockRoot;                                     //方块根节点
@@ -27,8 +28,10 @@ namespace GameLogic.BlockBreaker
         public GameObject gameoverMenu;                                 //游戏结束菜单
         RectTransform rectTransform;                                    //用于查看分辨率
 
-        int stage;                  //阶段
         int totalScore;             //总分
+        int highestInHistory;       //历史最高
+        int rows;                   //行数
+        bool allowLoad;             //允许读档
 
         public List<BlockBase> blockBases = new List<BlockBase>();      
 
@@ -39,7 +42,7 @@ namespace GameLogic.BlockBreaker
         public Vector2 stratPos;
 
         [SerializeField] int numberOfAmmunitionMax = 1;                 //弹珠总数量
-        [SerializeField] int attack = 1;                                //弹珠总数量
+        [SerializeField] int attack = 1;                                //弹珠攻击力
         [SerializeField] int numberOfAmmunition = -1;                   //弹珠数量
 
         Keyboard keyboard = Keyboard.current;//键盘
@@ -66,7 +69,12 @@ namespace GameLogic.BlockBreaker
             //设置起始位置
             stratPos = new Vector2((screenSize.x / 2) - 240 - 60, (screenSize.y / 2) - 60 - y - 120);
 
+            if (DataMgr.Instance != null)
+            {
+                highestInHistory = DataMgr.Instance.GetSaveData()[100005].Value;
+            }
             CreateBlock();
+            allowLoad = true;
         }
 
         //获得总分
@@ -117,93 +125,44 @@ namespace GameLogic.BlockBreaker
 
                     BlockBase block = gameObject.GetComponent<BlockBase>();
                     block.Init();
+                    block.SetRow();
 
                     if (block.blockAttributes != BlockAttributes.None)
                     {
                         int value = 0;
 
-                        switch(block.blockAttributes)
-                        {
-                            case BlockAttributes.SoilBlock:
-                                value = ComputePoint(1, 3, BlockAttributes.SoilBlock);
-                                break;
-
-                            case BlockAttributes.GrassBlock:
-                                value = ComputePoint(2, 5, BlockAttributes.GrassBlock);
-                                break;
-
-                            case BlockAttributes.WoodBlock:
-                                value = ComputePoint(2, 5, BlockAttributes.WoodBlock);
-                                break;
-
-                            case BlockAttributes.BrickBlock:
-
-                                value = ComputePoint(3, 7, BlockAttributes.BrickBlock);
-                                break;
-
-                            case BlockAttributes.IronBlock:
-                                value = ComputePoint(1, 5, BlockAttributes.IronBlock);
-                                break;
-                        }
-
+                        value = ComputePoint(block.blockAttributes);
                         gameObject.GetComponent<BlockBase>().SetPoint(value);
                     }
                 }
             }
         }
 
-        public int ComputePoint(int x,int y, BlockAttributes type)
+        public int ComputePoint(BlockAttributes type)
         {
             int value = 0;
-            
+
+            int attackMax = numberOfAmmunitionMax * attack;
 
             switch (type)
             {
                 case BlockAttributes.SoilBlock:
+                    value = (int)Math.Round(attackMax * 0.5f) + 1; 
+                    break;
                 case BlockAttributes.GrassBlock:
+                    value = attackMax;
+                    break;
                 case BlockAttributes.WoodBlock:
+                    value = attackMax + (int)Math.Round(attackMax * 0.5f);
+                    break;
                 case BlockAttributes.BrickBlock:
-                    if (numberOfAmmunitionMax < 5)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x, y);
-                    }
-                    else if (numberOfAmmunitionMax < 10)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x, y) + attack;
-                    }
-                    else if (numberOfAmmunitionMax < 20)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x, y) + attack * 2;
-                    }
-                    else if (numberOfAmmunitionMax < 40)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x, y) + attack * 4;
-                    }
-                    else
-                    {
-                        value = (numberOfAmmunitionMax + UnityEngine.Random.Range(x, y)) * (attack);
-                    }
+                    value = attackMax + (int)Math.Round(attackMax * 1f);
                     break;
                 case BlockAttributes.IronBlock:
-
-                    if (numberOfAmmunitionMax < 10)
-                    {
-                        value = (numberOfAmmunitionMax * UnityEngine.Random.Range(x, y - 3)) + (attack);
-                    }
-                    else if (numberOfAmmunitionMax < 20)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x , y - 2) + attack * 2;
-                    }
-                    else if (numberOfAmmunitionMax < 40)
-                    {
-                        value = numberOfAmmunitionMax + UnityEngine.Random.Range(x + 1, y) + attack * 4;
-                    }
-                    else
-                    {
-                        value = (numberOfAmmunitionMax + UnityEngine.Random.Range(x + 2, y)) * (attack);
-                    }
+                    value = attackMax + (int)Math.Round(attackMax * 1.5f);
                     break;
             }
+
             return value;
         }
 
@@ -217,7 +176,7 @@ namespace GameLogic.BlockBreaker
 
             int value = UnityEngine.Random.Range(0, 1000);
 
-            if (value < 350)
+            if (value < 480)
             {
                 result = 0;
             }
@@ -225,11 +184,11 @@ namespace GameLogic.BlockBreaker
             {
                 result = 1;
             }
-            else if (value < 850)
+            else if (value < 960)
             {
                 result = 2;
             }
-            else if (value <= 920)
+            else if (value <= 970)
             {
                 result = 3;
             }
@@ -244,9 +203,12 @@ namespace GameLogic.BlockBreaker
         //方块移动
         public void MoveBlock()
         {
+            rows = 0;
+
             for (int i = 0; i < blockRoot.childCount; i++)
             {
                 Transform @transform = blockRoot.GetChild(i);
+                BlockBase @base = blockRoot.GetChild(i).GetComponent<BlockBase>();
                 
                 if(@transform.GetComponent<BlockBase>() != null && 
                     @transform.GetComponent<BlockBase>().isDestroy == true)
@@ -262,6 +224,16 @@ namespace GameLogic.BlockBreaker
                     {
                         GameOver();
                         return;
+                    }
+
+                    if(@base != null)
+                    {
+                        @base.SetRow();
+
+                        if (rows < @base.GetRow())
+                        {
+                            rows = @base.GetRow();
+                        }
                     }
                 }
             }
@@ -296,8 +268,26 @@ namespace GameLogic.BlockBreaker
             totalScoreText.text = "x " + totalScore.ToString();
             numberOfAmmunitionMaxText.text = "x " + numberOfAmmunitionMax.ToString();
             attackText.text = "x " + attack.ToString();
+            highestInHistoryText.text = "x " + highestInHistory.ToString();
         }
         //-------------------------------------------
+
+
+        /// <summary>
+        /// 保存历史最高数据
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator OnSaveHighestInHistory()
+        {
+            if (DataMgr.Instance != null && highestInHistory < totalScore)
+            {
+                highestInHistory = totalScore;
+                DataMgr.Instance.GetSaveData()[100005].Value = highestInHistory;
+                DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100005]);
+            }
+
+            yield return null;
+        }
 
         /// <summary>
         /// 设置攻击力
@@ -348,17 +338,20 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void GameOver()
         {
+            gameStatic = GameStatic.StopPlay;
+
             if (AudioMgr.Instance != null)
                 AudioMgr.Instance.PlaySound(100027);
-
-            gameStatic = GameStatic.StopPlay;
             
             gameoverMenu.SetActive(true);
             finalScoreText.text = totalScore.ToString();
 
+            StartCoroutine(OnSaveHighestInHistory());
+
             numberOfAmmunitionMax = 1;
             attack = 1;
             totalScore = 0;
+            numberOfAmmunition = -1;
 
             Tools.ClearChild(blockRoot);
             
@@ -372,11 +365,13 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void ReStart()
         {
-            gameStatic = GameStatic.Play;
+            gameStatic = GameStatic.StopPlay;
 
             numberOfAmmunitionMax = 1;
+            numberOfAmmunition = -1;
             attack = 1;
             totalScore = 0;
+            rows = 0;
             Tools.ClearChild(blockRoot);
             Tools.ClearChild(ballRoot);
 
@@ -388,6 +383,100 @@ namespace GameLogic.BlockBreaker
             gameoverMenu.SetActive(false);
 
             CreateBlock();
+
+            gameStatic = GameStatic.Play;
+        }
+
+        /// <summary>
+        /// 获取存档数据
+        /// </summary>
+        public void GetSave()
+        {
+            if(allowLoad == false)
+            {
+                Debug.Log("不许读档");
+                return;
+            }
+            StartCoroutine(OnGetSave());
+        }
+
+        /// <summary>
+        /// 获取存档数据
+        /// </summary>
+        IEnumerator OnGetSave()
+        {
+            gameStatic = GameStatic.StopPlay;
+            allowLoad = false;
+            Tools.ClearChild(blockRoot);
+            Tools.ClearChild(ballRoot);
+
+            yield return new WaitForSeconds(1.0f);
+
+            if (DataMgr.Instance != null)
+            {
+                totalScore = DataMgr.Instance.GetSaveData()[100001].Value;
+                if (totalScore <= 0)
+                {
+                    totalScore = 0;
+                }
+
+                int value = DataMgr.Instance.GetSaveData()[100002].Value;
+                if (value <= 0)
+                {
+                    value = 1;
+                }
+
+                attack = DataMgr.Instance.GetSaveData()[100003].Value;
+                if (attack <= 0)
+                {
+                    attack = 1;
+                }
+
+                numberOfAmmunitionMax = DataMgr.Instance.GetSaveData()[100004].Value;
+                if (numberOfAmmunitionMax <= 0)
+                {
+                    numberOfAmmunitionMax = 1;
+                }
+
+                for (int i = 0; i < value; i++)
+                {
+                    MoveBlock();
+                    CreateBlock();
+                }
+            }
+
+            allowLoad = true;
+            CloseExitMenu();
+        }
+
+        /// <summary>
+        /// 保存存档
+        /// </summary>
+        public void SetSave()
+        {
+            if (DataMgr.Instance != null)
+            {
+                if(totalScore > 0)
+                {
+                    DataMgr.Instance.GetSaveData()[100001].Value = totalScore;
+                    DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100001]);
+                }
+
+                DataMgr.Instance.GetSaveData()[100002].Value = rows;
+                DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100002]);
+
+                if (attack > 0)
+                {
+                    DataMgr.Instance.GetSaveData()[100003].Value = attack;
+                    DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100003]);
+                }
+
+                if (numberOfAmmunitionMax > 0)
+                {
+                    DataMgr.Instance.GetSaveData()[100004].Value = numberOfAmmunitionMax;
+                    DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100004]);
+                }
+            }
         }
 
         /// <summary>
@@ -398,6 +487,7 @@ namespace GameLogic.BlockBreaker
             AudioMgr.Instance.StopBGM();
             SceneMgr.Instance.LoadScene("GameStartScene");
         }
+
         /// <summary>
         /// 退出游戏
         /// </summary>

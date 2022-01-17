@@ -44,5 +44,15 @@ namespace GameLogic.BlockBreaker
         {
             point = value;
         }
+
+        public override void SetRow()
+        {
+            row += 1;
+        }
+
+        public override int GetRow()
+        {
+            return row;
+        }
     }
 }

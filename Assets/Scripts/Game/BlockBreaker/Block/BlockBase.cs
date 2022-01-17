@@ -17,9 +17,13 @@ namespace GameLogic.BlockBreaker
         public BlockAttributes blockAttributes;
         public bool isDestroy;
         public int point;
+        public int row;
         public Text pointText;
+
         public abstract void Init();
         public abstract void SetPoint(int value);
+        public abstract void SetRow();
+        public abstract int GetRow();
         public abstract void DestroyObj();
     }
 }
