@@ -62,7 +62,8 @@ namespace GameLogic.BlockBreaker
         }
 
         private static float SPEED = 20f;                                    //速度
-        private static float MIN_SPEED = 0.7f;                               //最小速度
+        private static float MIN_SPEED_Y = 0.7f;                             //y轴最小速度
+        private static float MIN_SPEED_X = 2f;                               //x轴最小速度
         private static float MIN_SPEED_BEFORE_CONSIDERED_STUCK = 0.35f;      //卡滞前的最小速度
         private static float UNSTUCK_BOOST = 20f;                            //防卡助推
         private static float[] DIRECTION = { 1, -1 };                        //方向
@@ -107,6 +108,7 @@ namespace GameLogic.BlockBreaker
                     break;
             }
 
+            //x轴的速度小于0.35则准备进入回收状态
             if (rb.velocity.x < MIN_SPEED_BEFORE_CONSIDERED_STUCK)
             {
                 watchdog.AddPossibleStuckBall(this);
@@ -124,19 +126,21 @@ namespace GameLogic.BlockBreaker
         {
             rb.velocity = rb.velocity.normalized * SPEED;
 
-            if (rb.velocity.y < MIN_SPEED && rb.velocity.y > -MIN_SPEED)
+            //对Y轴进行加速
+            if (rb.velocity.y < MIN_SPEED_Y && rb.velocity.y > -MIN_SPEED_Y)
             {
                 float signXVel = Mathf.Sign(rb.velocity.x);
                 float signYVel = Mathf.Sign(rb.velocity.y);
-                rb.velocity = new Vector2(signXVel * SPEED - MIN_SPEED, signYVel * MIN_SPEED);
+                rb.velocity = new Vector2(signXVel * SPEED - MIN_SPEED_Y, signYVel * MIN_SPEED_Y);
             }
 
-            //if (rb.velocity.x < MIN_SPEED && rb.velocity.x > -MIN_SPEED)
-            //{
-            //    float signXVel = Mathf.Sign(rb.velocity.x);
-            //    float signYVel = Mathf.Sign(rb.velocity.y);
-            //    rb.velocity = new Vector2(signXVel * MIN_SPEED, signYVel * SPEED - MIN_SPEED);
-            //}
+            //对X轴进行加速
+            if (rb.velocity.x < MIN_SPEED_X && rb.velocity.x > -MIN_SPEED_X)
+            {
+                float signXVel = Mathf.Sign(rb.velocity.x);
+                float signYVel = Mathf.Sign(rb.velocity.y);
+                rb.velocity = new Vector2(signXVel * MIN_SPEED_X, signYVel * SPEED - MIN_SPEED_X);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

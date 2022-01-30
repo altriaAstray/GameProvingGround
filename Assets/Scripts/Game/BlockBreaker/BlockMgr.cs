@@ -22,10 +22,12 @@ namespace GameLogic.BlockBreaker
         public Text attackText;                                         //弹珠总数显示
         public Vector2 screenSize;                                      //屏幕大小
         public Transform blockRoot;                                     //方块根节点
-        public Transform ballRoot;                                     //球根节点
+        public Transform ballRoot;                                      //球根节点
         public Transform gameOverWall;                                  //用于结束游戏判断
         public GameObject exitMenu;                                     //退出菜单
         public GameObject gameoverMenu;                                 //游戏结束菜单
+        public GameObject saveMenu;                                     //存档菜单
+        public GameObject readMenu;                                     //读档菜单
         RectTransform rectTransform;                                    //用于查看分辨率
 
         int totalScore;             //总分
@@ -409,7 +411,12 @@ namespace GameLogic.BlockBreaker
             allowLoad = false;
             Tools.ClearChild(blockRoot);
             Tools.ClearChild(ballRoot);
-
+            //CloseExitMenu();
+            exitMenu.SetActive(false);
+            gameoverMenu.SetActive(false);
+            readMenu.SetActive(true);
+            readMenu.transform.Find("Log").gameObject.SetActive(true);
+            readMenu.transform.Find("Log2").gameObject.SetActive(false);
             yield return new WaitForSeconds(1.0f);
 
             if (DataMgr.Instance != null)
@@ -444,9 +451,13 @@ namespace GameLogic.BlockBreaker
                     CreateBlock();
                 }
             }
-
+            readMenu.transform.Find("Log2").gameObject.SetActive(true);
+            readMenu.transform.Find("Log").gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            readMenu.SetActive(false);
             allowLoad = true;
-            CloseExitMenu();
+            gameStatic = GameStatic.Play;
+            //CloseExitMenu();
         }
 
         /// <summary>
@@ -454,9 +465,22 @@ namespace GameLogic.BlockBreaker
         /// </summary>
         public void SetSave()
         {
+            StartCoroutine(OnSetSave());
+        }
+
+        IEnumerator OnSetSave()
+        {
+            gameStatic = GameStatic.StopPlay;
+            exitMenu.SetActive(false);
+            gameoverMenu.SetActive(false);
+            saveMenu.SetActive(true);
+            saveMenu.transform.Find("Log").gameObject.SetActive(true);
+            saveMenu.transform.Find("Log2").gameObject.SetActive(false);
+            yield return new WaitForSeconds(1f);
+
             if (DataMgr.Instance != null)
             {
-                if(totalScore > 0)
+                if (totalScore > 0)
                 {
                     DataMgr.Instance.GetSaveData()[100001].Value = totalScore;
                     DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100001]);
@@ -477,7 +501,17 @@ namespace GameLogic.BlockBreaker
                     DataMgr.Instance.SetSave(DataMgr.Instance.GetSaveData()[100004]);
                 }
             }
+
+            saveMenu.transform.Find("Log2").gameObject.SetActive(true);
+            saveMenu.transform.Find("Log").gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            exitMenu.SetActive(false);
+            gameoverMenu.SetActive(false);
+            saveMenu.SetActive(false);
+            
+            gameStatic = GameStatic.Play;
         }
+
 
         /// <summary>
         /// 返回到主场景
